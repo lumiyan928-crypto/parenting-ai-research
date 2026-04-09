@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KidPet · 孩子状态桌宠</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --primary: #6C5CE7;
+    --primary-light: #a29bfe;
+    --accent: #00b894;
+    --warning: #fdcb6e;
+    --danger: #e17055;
+    --text: #2d3436;
+    --text-secondary: #636e72;
+    --shadow: 0 8px 32px rgba(0,0,0,0.08);
+    --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
+    --radius: 20px;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ===== 桌面背景 ===== */
+  .desktop {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktop::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(108,92,231,0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0,184,148,0.05) 0%, transparent 50%);
+  }
+
+  /* 模拟桌面图标 */
+  .desktop-icons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    opacity: 0.3;
+  }
+
+  .desktop-icon {
+    width: 60px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .desktop-icon .icon-img {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .desktop-icon span {
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+
+  /* 模拟任务栏 */
+  .taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: rgba(45,52,54,0.85);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    z-index: 5;
+  }
+
+  .taskbar-time {
+    margin-left: auto;
+    color: #dfe6e9;
+    font-size: 13px;
+    font-weight: 300;
+  }
+
+  .taskbar-icons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .taskbar-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .taskbar-icon:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* ===== 桌宠主体 ===== */
+  .pet-container {
+    position: absolute;
+    bottom: 80px;
+    right: 60px;
+    cursor: grab;
+    z-index: 100;
+    transition: filter 0.3s;
+  }
+
+  .pet-container:active {
+    cursor: grabbing;
+  }
+
+  .pet-container:hover {
+    filter: drop-shadow(0 0 20px rgba(108,92,231,0.3));
+  }
+
+  /* 状态气泡 */
+  .status-bubble {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card);
+    border-radius: 16px;
+    padding: 8px 16px;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+    font-size: 13px;
+    color: var(--text);
+    opacity: 0;
+    animation: bubbleIn 0.4s ease forwards;
+    z-index: 101;
+  }
+
+  .status-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: var(--card);
+    border-radius: 2px;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .status-bubble .bubble-icon {
+    margin-right: 6px;
+  }
+
+  @keyframes bubbleIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* 宠物身体 */
+  .pet-body {
+    width: 120px;
+    height: 140px;
+    position: relative;
+  }
+
+  /* 像素风小人 */
+  .character {
+    width: 120px;
+    height: 140px;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* 头部 */
+  .head {
+    width: 64px;
+    height: 64px;
+    background: #FFEAA7;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    overflow: hidden;
+    border: 3px solid #F8C291;
+  }
+
+  .head::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    right: -4px;
+    height: 36px;
+    background: #2d3436;
+    border-radius: 50% 50% 0 0;
+  }
+
+  /* 眼睛 */
+  .eyes {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+  }
+
+  .eye {
+    width: 8px;
+    height: 8px;
+    background: #2d3436;
+    border-radius: 50%;
+    position: relative;
+    animation: blink 4s infinite;
+  }
+
+  @keyframes blink {
+    0%, 95%, 100% { height: 8px; }
+    97% { height: 2px; }
+  }
+
+  /* 嘴巴 */
+  .mouth {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 6px;
+    border-bottom: 2.5px solid #e17055;
+    border-radius: 0 0 50% 50%;
+    transition: all 0.3s;
+  }
+
+  /* 腮红 */
+  .blush {
+    position: absolute;
+    bottom: 14px;
+    width: 10px;
+    height: 6px;
+    background: rgba(225,112,85,0.3);
+    border-radius: 50%;
+  }
+
+  .blush.left { left: 6px; }
+  .blush.right { right: 6px; }
+
+  /* 身体 */
+  .body {
+    width: 52px;
+    height: 44px;
+    background: var(--primary);
+    border-radius: 12px 12px 8px 8px;
+    position: absolute;
+    top: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  /* 手臂 */
+  .arm {
+    width: 14px;
+    height: 32px;
+    background: var(--primary);
+    border-radius: 7px;
+    position: absolute;
+    top: 60px;
+    z-index: 0;
+  }
+
+  .arm.left {
+    left: 18px;
+    transform: rotate(10deg);
+    transform-origin: top center;
+  }
+
+  .arm.right {
+    right: 18px;
+    transform: rotate(-10deg);
+    transform-origin: top center;
+  }
+
+  /* 腿 */
+  .leg {
+    width: 16px;
+    height: 28px;
+    background: #636e72;
+    border-radius: 8px;
+    position: absolute;
+    top: 96px;
+    z-index: 0;
+  }
+
+  .leg.left { left: 36px; }
+  .leg.right { right: 36px; }
+
+  /* 鞋子 */
+  .shoe {
+    width: 20px;
+    height: 10px;
+    background: #2d3436;
+    border-radius: 10px 10px 4px 4px;
+    position: absolute;
+    top: 120px;
+  }
+
+  .shoe.left { left: 34px; }
+  .shoe.right { right: 34px; }
+
+  /* 阴影 */
+  .pet-shadow {
+    width: 60px;
+    height: 12px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 50%;
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: shadowPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes shadowPulse {
+    0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.15; }
+    50% { transform: translateX(-50%) scaleX(0.85); opacity: 0.1; }
+  }
+
+  /* ===== 状态特效 ===== */
+  /* 写作业 - 铅笔 */
+  .prop-pencil {
+    position: absolute;
+    top: 62px;
+    right: 10px;
+    font-size: 20px;
+    z-index: 3;
+    animation: writing 0.8s ease-in-out infinite;
+    display: none;
+  }
+
+  @keyframes writing {
+    0%, 100% { transform: rotate(-20deg) translate(0, 0); }
+    50% { transform: rotate(-15deg) translate(2px, 2px); }
+  }
+
+  /* 写作业 - 书本 */
+  .prop-book {
+    position: absolute;
+    top: 78px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    z-index: 3;
+    display: none;
+  }
+
+  /* 睡觉 - ZZZ */
+  .zzz {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    z-index: 10;
+    display: none;
+  }
+
+  .zzz span {
+    position: absolute;
+    font-weight: 700;
+    color: var(--primary-light);
+    opacity: 0;
+  }
+
+  .zzz span:nth-child(1) {
+    font-size: 12px;
+    animation: zzz1 2s infinite;
+    right: 0;
+    top: 0;
+  }
+
+  .zzz span:nth-child(2) {
+    font-size: 16px;
+    animation: zzz2 2s infinite 0.5s;
+    right: 10px;
+    top: -14px;
+  }
+
+  .zzz span:nth-child(3) {
+    font-size: 20px;
+    animation: zzz3 2s infinite 1s;
+    right: 22px;
+    top: -32px;
+  }
+
+  @keyframes zzz1 {
+    0% { opacity: 0; transform: translate(0,0); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: translate(8px, -16px); }
+  }
+
+  @keyframes zzz2 {
+    0% { opacity: 0; transform: translate(0,0); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: translate(8px, -16px); }
+  }
+
+  @keyframes zzz3 {
+    0% { opacity: 0; transform: translate(0,0); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: translate(8px, -16px); }
+  }
+
+  /* 吃饭 - 碗 */
+  .prop-bowl {
+    position: absolute;
+    top: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    z-index: 3;
+    display: none;
+  }
+
+  /* 步行动画 */
+  .walking .leg.left {
+    animation: walkLeft 0.6s ease-in-out infinite;
+  }
+
+  .walking .leg.right {
+    animation: walkRight 0.6s ease-in-out infinite;
+  }
+
+  @keyframes walkLeft {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(20deg); }
+  }
+
+  @keyframes walkRight {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(-20deg); }
+  }
+
+  .walking .character {
+    animation: walkBounce 0.3s ease-in-out infinite;
+  }
+
+  @keyframes walkBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  /* 喝水 */
+  .prop-cup {
+    position: absolute;
+    top: 64px;
+    right: 12px;
+    font-size: 18px;
+    z-index: 3;
+    display: none;
+    animation: drinking 1.5s ease-in-out infinite;
+  }
+
+  @keyframes drinking {
+    0%, 100% { transform: rotate(0); }
+    30%, 70% { transform: rotate(-30deg) translateY(-4px); }
+  }
+
+  /* 上课 - 举手 */
+  .studying .arm.right {
+    animation: raiseHand 3s ease-in-out infinite;
+  }
+
+  @keyframes raiseHand {
+    0%, 80%, 100% { transform: rotate(-10deg); }
+    40%, 60% { transform: rotate(-80deg); }
+  }
+
+  /* 睡觉 - 闭眼 */
+  .sleeping .eye {
+    height: 2px !important;
+    animation: none !important;
+  }
+
+  .sleeping .mouth {
+    width: 8px;
+    height: 3px;
+    border-bottom: 2px solid #e17055;
+    border-radius: 0 0 50% 50%;
+  }
+
+  .sleeping .character {
+    animation: sleepFloat 4s ease-in-out infinite;
+  }
+
+  @keyframes sleepFloat {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-4px) rotate(-2deg); }
+  }
+
+  /* 吃饭 - 咀嚼 */
+  .eating .mouth {
+    animation: chew 0.5s ease-in-out infinite;
+  }
+
+  @keyframes chew {
+    0%, 100% { height: 6px; width: 12px; }
+    50% { height: 4px; width: 14px; }
+  }
+
+  /* ===== 控制面板 ===== */
+  .control-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    width: 320px;
+    z-index: 50;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f1f2f6;
+  }
+
+  .panel-logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  .panel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .panel-subtitle {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  .panel-badge {
+    margin-left: auto;
+    background: #00b894;
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* 孩子信息 */
+  .child-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .child-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFEAA7, #F8C291);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .child-detail {
+    flex: 1;
+  }
+
+  .child-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .child-meta {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  /* 状态按钮组 */
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .status-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 2px solid #f1f2f6;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .status-btn:hover {
+    border-color: var(--primary-light);
+    background: #f8f7ff;
+    transform: translateY(-1px);
+  }
+
+  .status-btn.active {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(108,92,231,0.08), rgba(162,155,254,0.08));
+    color: var(--primary);
+    box-shadow: 0 2px 12px rgba(108,92,231,0.15);
+  }
+
+  .status-btn .btn-icon {
+    font-size: 18px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .status-btn.active .btn-icon {
+    background: rgba(108,92,231,0.12);
+  }
+
+  /* 时间线 */
+  .timeline {
+    margin-top: 4px;
+  }
+
+  .timeline-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    position: relative;
+  }
+
+  .timeline-dot-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 16px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .timeline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #dfe6e9;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .timeline-item:first-child .timeline-dot {
+    background: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108,92,231,0.2);
+  }
+
+  .timeline-item:not(:last-child) .timeline-dot-wrap::after {
+    content: '';
+    width: 2px;
+    height: 24px;
+    background: #f1f2f6;
+    margin-top: 2px;
+  }
+
+  .timeline-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .timeline-status {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .timeline-time {
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-top: 1px;
+  }
+
+  /* ===== 通知弹窗 ===== */
+  .notification {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: var(--card);
+    border-radius: 16px;
+    padding: 12px 20px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 200;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-left: 4px solid var(--primary);
+  }
+
+  .notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  .notification-icon {
+    font-size: 20px;
+  }
+
+  .notification-text {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .notification-text strong {
+    color: var(--primary);
+  }
+
+  /* ===== 右键菜单 ===== */
+  .context-menu {
+    position: absolute;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: var(--shadow-lg);
+    z-index: 300;
+    display: none;
+    min-width: 160px;
+    animation: menuIn 0.2s ease;
+  }
+
+  @keyframes menuIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+
+  .menu-item:hover {
+    background: #f8f7ff;
+    color: var(--primary);
+  }
+
+  .menu-divider {
+    height: 1px;
+    background: #f1f2f6;
+    margin: 4px 0;
+  }
+
+  /* ===== 底部提示 ===== */
+  .hint {
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hint kbd {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: monospace;
+    border: 1px solid #dee2e6;
+  }
+
+  /* ===== 心情指标 ===== */
+  .mood-bar {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 10px;
+  }
+
+  .mood-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .mood-label span {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .mood-label .mood-value {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .mood-track {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .mood-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #55efc4);
+    border-radius: 3px;
+    width: 85%;
+    transition: width 0.5s ease;
+  }
+
+  /* ===== 道具粒子效果 ===== */
+  .particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99;
+  }
+
+  .particle {
+    position: absolute;
+    font-size: 16px;
+    opacity: 0;
+    animation: particleFloat 2s ease-out forwards;
+  }
+
+  @keyframes particleFloat {
+    0% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.5); }
+  }
+
+  /* 衣服颜色变化 */
+  .status-homework .body { background: #6C5CE7; }
+  .status-sleep .body { background: #a29bfe; }
+  .status-eat .body { background: #00b894; }
+  .status-walk .body { background: #fdcb6e; }
+  .status-drink .body { background: #74b9ff; }
+  .status-class .body { background: #e17055; }
+
+  .status-homework .arm { background: #6C5CE7; }
+  .status-sleep .arm { background: #a29bfe; }
+  .status-eat .arm { background: #00b894; }
+  .status-walk .arm { background: #fdcb6e; }
+  .status-drink .arm { background: #74b9ff; }
+  .status-class .arm { background: #e17055; }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 768px) {
+    .control-panel {
+      width: calc(100% - 40px);
+      right: 20px;
+    }
+  }
+
+  /* 自动演示标签 */
+  .auto-badge {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(108,92,231,0.9);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    z-index: 60;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .auto-badge.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .auto-badge:hover {
+    background: rgba(108,92,231,1);
+    transform: translateX(-50%) scale(1.03);
+  }
+
+  .auto-dot {
+    width: 6px;
+    height: 6px;
+    background: #55efc4;
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+  }
+</style>
+</head>
+<body>
+
+<div class="desktop">
+  <!-- 模拟桌面图标 -->
+  <div class="desktop-icons">
+    <div class="desktop-icon"><div class="icon-img">📁</div><span>文档</span></div>
+    <div class="desktop-icon"><div class="icon-img">🌐</div><span>浏览器</span></div>
+    <div class="desktop-icon"><div class="icon-img">💬</div><span>企业微信</span></div>
+    <div class="desktop-icon"><div class="icon-img">📊</div><span>Excel</span></div>
+  </div>
+
+  <!-- 自动演示标签 -->
+  <div class="auto-badge" id="autoBadge" onclick="toggleAutoPlay()">
+    <div class="auto-dot"></div>
+    <span>自动演示中 · 点击暂停</span>
+  </div>
+
+  <!-- 通知 -->
+  <div class="notification" id="notification">
+    <span class="notification-icon">🔔</span>
+    <span class="notification-text" id="notificationText"></span>
+  </div>
+
+  <!-- 桌宠 -->
+  <div class="pet-container" id="pet">
+    <div class="status-bubble" id="statusBubble" style="display:none;"></div>
+
+    <div class="zzz" id="zzz">
+      <span>Z</span><span>Z</span><span>Z</span>
+    </div>
+
+    <div class="pet-body status-homework" id="petBody">
+      <div class="character" id="character">
+        <!-- 头 -->
+        <div class="head">
+          <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+          </div>
+          <div class="mouth"></div>
+          <div class="blush left"></div>
+          <div class="blush right"></div>
+        </div>
+        <!-- 身体 -->
+        <div class="body"></div>
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+        <div class="leg left"></div>
+        <div class="leg right"></div>
+        <div class="shoe left"></div>
+        <div class="shoe right"></div>
+      </div>
+
+      <!-- 道具 -->
+      <div class="prop-pencil" id="propPencil">✏️</div>
+      <div class="prop-book" id="propBook">📖</div>
+      <div class="prop-bowl" id="propBowl">🍚</div>
+      <div class="prop-cup" id="propCup">🥤</div>
+
+      <div class="pet-shadow"></div>
+    </div>
+  </div>
+
+  <!-- 粒子效果 -->
+  <div class="particles" id="particles"></div>
+
+  <!-- 控制面板 -->
+  <div class="control-panel">
+    <div class="panel-header">
+      <div class="panel-logo">🐾</div>
+      <div>
+        <div class="panel-title">KidPet</div>
+        <div class="panel-subtitle">孩子状态实时桌宠</div>
+      </div>
+      <div class="panel-badge">在线</div>
+    </div>
+
+    <div class="child-info">
+      <div class="child-avatar">👦</div>
+      <div class="child-detail">
+        <div class="child-name">小明同学</div>
+        <div class="child-meta">三年级 · 今日状态良好</div>
+      </div>
+    </div>
+
+    <div class="status-grid">
+      <button class="status-btn active" data-status="homework" onclick="setStatus('homework')">
+        <span class="btn-icon">✏️</span>写作业
+      </button>
+      <button class="status-btn" data-status="sleep" onclick="setStatus('sleep')">
+        <span class="btn-icon">😴</span>睡觉
+      </button>
+      <button class="status-btn" data-status="eat" onclick="setStatus('eat')">
+        <span class="btn-icon">🍚</span>吃饭
+      </button>
+      <button class="status-btn" data-status="walk" onclick="setStatus('walk')">
+        <span class="btn-icon">🚶</span>步行
+      </button>
+      <button class="status-btn" data-status="drink" onclick="setStatus('drink')">
+        <span class="btn-icon">💧</span>喝水
+      </button>
+      <button class="status-btn" data-status="class" onclick="setStatus('class')">
+        <span class="btn-icon">📚</span>上课
+      </button>
+    </div>
+
+    <div class="mood-bar">
+      <div class="mood-label">
+        <span>😊 今日心情指数</span>
+        <span class="mood-value" id="moodValue">85%</span>
+      </div>
+      <div class="mood-track">
+        <div class="mood-fill" id="moodFill"></div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-title">📋 今日动态</div>
+      <div class="timeline-list" id="timelineList">
+        <div class="timeline-item">
+          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-status">✏️ 开始写作业</div>
+            <div class="timeline-time">15:28 · 刚刚</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-status">🍚 午餐时间</div>
+            <div class="timeline-time">12:00 · 3小时前</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-status">📚 下午上课</div>
+            <div class="timeline-time">13:30 · 2小时前</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右键菜单 -->
+  <div class="context-menu" id="contextMenu">
+    <div class="menu-item" onclick="interactPet('pat')">🤚 摸摸头</div>
+    <div class="menu-item" onclick="interactPet('cheer')">💪 加油打气</div>
+    <div class="menu-item" onclick="interactPet('love')">❤️ 发送爱心</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" onclick="toggleAutoPlay()">🔄 自动演示</div>
+    <div class="menu-item" onclick="closeMenu()">✕ 关闭</div>
+  </div>
+
+  <!-- 提示 -->
+  <div class="hint">
+    💡 拖拽桌宠移动位置 · 右键查看互动菜单 · 点击右侧按钮切换状态
+  </div>
+
+  <!-- 任务栏 -->
+  <div class="taskbar">
+    <div class="taskbar-icons">
+      <div class="taskbar-icon">🪟</div>
+      <div class="taskbar-icon">📂</div>
+      <div class="taskbar-icon">🌐</div>
+      <div class="taskbar-icon" style="background:rgba(108,92,231,0.3);">🐾</div>
+    </div>
+    <div class="taskbar-time" id="taskbarTime">15:28</div>
+  </div>
+</div>
+
+<script>
+  // ===== 状态配置 =====
+  const STATUS_CONFIG = {
+    homework: {
+      label: '写作业',
+      icon: '✏️',
+      bubble: '正在认真写作业~',
+      notification: '小明开始写作业啦！',
+      bodyClass: 'status-homework',
+      particles: ['📝', '✏️', '📐', '🔢'],
+      mood: 85
+    },
+    sleep: {
+      label: '睡觉',
+      icon: '😴',
+      bubble: '已经睡着了...',
+      notification: '小明已经入睡了，晚安~',
+      bodyClass: 'status-sleep',
+      extraClass: 'sleeping',
+      particles: ['💤', '⭐', '🌙', '✨'],
+      mood: 90
+    },
+    eat: {
+      label: '吃饭',
+      icon: '🍚',
+      bubble: '吃得香香的~',
+      notification: '小明正在吃饭，胃口不错！',
+      bodyClass: 'status-eat',
+      extraClass: 'eating',
+      particles: ['🍚', '🥢', '🍖', '🥬'],
+      mood: 88
+    },
+    walk: {
+      label: '步行',
+      icon: '🚶',
+      bubble: '在路上走着~',
+      notification: '小明正在步行中...',
+      bodyClass: 'status-walk',
+      extraClass: 'walking',
+      particles: ['👣', '🌿', '🍃', '🌸'],
+      mood: 80
+    },
+    drink: {
+      label: '喝水',
+      icon: '💧',
+      bubble: '补充水分中~',
+      notification: '小明在喝水，保持水分很重要！',
+      bodyClass: 'status-drink',
+      particles: ['💧', '💦', '🥤', '🫧'],
+      mood: 82
+    },
+    class: {
+      label: '上课',
+      icon: '📚',
+      bubble: '正在专心听课~',
+      notification: '小明正在上课，认真听讲中！',
+      bodyClass: 'status-class',
+      extraClass: 'studying',
+      particles: ['📚', '🎓', '📖', '🏫'],
+      mood: 78
+    }
+  };
+
+  let currentStatus = 'homework';
+  let autoPlayTimer = null;
+  let isAutoPlaying = false;
+  let isDragging = false;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+
+  // ===== 状态切换 =====
+  function setStatus(status, fromAuto = false) {
+    if (status === currentStatus && !fromAuto) return;
+
+    const config = STATUS_CONFIG[status];
+    const petBody = document.getElementById('petBody');
+    const pet = document.getElementById('pet');
+
+    // 更新按钮状态
+    document.querySelectorAll('.status-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.status === status);
+    });
+
+    // 清除所有状态类
+    petBody.className = 'pet-body ' + config.bodyClass;
+    if (config.extraClass) {
+      petBody.classList.add(config.extraClass);
+    }
+
+    // 隐藏所有道具
+    document.getElementById('propPencil').style.display = 'none';
+    document.getElementById('propBook').style.display = 'none';
+    document.getElementById('propBowl').style.display = 'none';
+    document.getElementById('propCup').style.display = 'none';
+    document.getElementById('zzz').style.display = 'none';
+
+    // 显示对应道具
+    switch (status) {
+      case 'homework':
+        document.getElementById('propPencil').style.display = 'block';
+        document.getElementById('propBook').style.display = 'block';
+        break;
+      case 'sleep':
+        document.getElementById('zzz').style.display = 'block';
+        break;
+      case 'eat':
+        document.getElementById('propBowl').style.display = 'block';
+        break;
+      case 'drink':
+        document.getElementById('propCup').style.display = 'block';
+        break;
+    }
+
+    // 显示气泡
+    showBubble(config.icon + ' ' + config.bubble);
+
+    // 显示通知
+    if (currentStatus !== status) {
+      showNotification(config.icon, config.notification);
+      spawnParticles(config.particles);
+
+      // 添加时间线条目
+      addTimelineEntry(config.icon + ' ' + config.label, '刚刚');
+    }
+
+    // 更新心情
+    const moodFill = document.getElementById('moodFill');
+    const moodValue = document.getElementById('moodValue');
+    moodFill.style.width = config.mood + '%';
+    moodValue.textContent = config.mood + '%';
+
+    currentStatus = status;
+  }
+
+  // ===== 气泡 =====
+  function showBubble(text) {
+    const bubble = document.getElementById('statusBubble');
+    bubble.innerHTML = text;
+    bubble.style.display = 'block';
+    bubble.style.animation = 'none';
+    bubble.offsetHeight;
+    bubble.style.animation = 'bubbleIn 0.4s ease forwards';
+
+    clearTimeout(bubble._timer);
+    bubble._timer = setTimeout(() => {
+      bubble.style.display = 'none';
+    }, 3000);
+  }
+
+  // ===== 通知 =====
+  function showNotification(icon, text) {
+    const noti = document.getElementById('notification');
+    const notiText = document.getElementById('notificationText');
+    notiText.innerHTML = text;
+    document.querySelector('.notification-icon').textContent = icon;
+    noti.classList.add('show');
+
+    clearTimeout(noti._timer);
+    noti._timer = setTimeout(() => {
+      noti.classList.remove('show');
+    }, 3000);
+  }
+
+  // ===== 粒子效果 =====
+  function spawnParticles(emojis) {
+    const container = document.getElementById('particles');
+    const pet = document.getElementById('pet');
+    const rect = pet.getBoundingClientRect();
+
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        p.style.left = (rect.left + rect.width / 2 + (Math.random() - 0.5) * 40) + 'px';
+        p.style.top = (rect.top + 20) + 'px';
+        p.style.setProperty('--tx', (Math.random() - 0.5) * 80 + 'px');
+        p.style.setProperty('--ty', -(60 + Math.random() * 60) + 'px');
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 2000);
+      }, i * 100);
+    }
+  }
+
+  // ===== 时间线 =====
+  function addTimelineEntry(status, time) {
+    const list = document.getElementById('timelineList');
+    const now = new Date();
+    const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+    const item = document.createElement('div');
+    item.className = 'timeline-item';
+    item.innerHTML = `
+      <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+      <div class="timeline-content">
+        <div class="timeline-status">${status}</div>
+        <div class="timeline-time">${timeStr} · ${time}</div>
+      </div>
+    `;
+
+    // 移除第一个的高亮
+    const firstDot = list.querySelector('.timeline-dot');
+    if (firstDot) {
+      firstDot.style.background = '#dfe6e9';
+      firstDot.style.boxShadow = 'none';
+    }
+
+    list.insertBefore(item, list.firstChild);
+
+    // 限制数量
+    while (list.children.length > 6) {
+      list.removeChild(list.lastChild);
+    }
+  }
+
+  // ===== 拖拽 =====
+  const pet = document.getElementById('pet');
+
+  pet.addEventListener('mousedown', (e) => {
+    if (e.button === 2) return;
+    isDragging = true;
+    dragOffsetX = e.clientX - pet.offsetLeft;
+    dragOffsetY = e.clientY - pet.offsetTop;
+    pet.style.cursor = 'grabbing';
+    pet.style.transition = 'none';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    let x = e.clientX - dragOffsetX;
+    let y = e.clientY - dragOffsetY;
+
+    // 边界限制
+    x = Math.max(0, Math.min(window.innerWidth - 120, x));
+    y = Math.max(0, Math.min(window.innerHeight - 180, y));
+
+    pet.style.left = x + 'px';
+    pet.style.top = y + 'px';
+    pet.style.right = 'auto';
+    pet.style.bottom = 'auto';
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    pet.style.cursor = 'grab';
+  });
+
+  // ===== 右键菜单 =====
+  pet.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    const menu = document.getElementById('contextMenu');
+    menu.style.display = 'block';
+    menu.style.left = e.clientX + 'px';
+    menu.style.top = e.clientY + 'px';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.context-menu')) {
+      document.getElementById('contextMenu').style.display = 'none';
+    }
+  });
+
+  function closeMenu() {
+    document.getElementById('contextMenu').style.display = 'none';
+  }
+
+  // ===== 互动 =====
+  function interactPet(action) {
+    closeMenu();
+    const config = {
+      pat: { emoji: '🥰', text: '被摸摸头，好开心~', particles: ['💕', '✨', '🌟', '💖'] },
+      cheer: { emoji: '💪', text: '谢谢妈妈/爸爸的鼓励！', particles: ['💪', '🔥', '⭐', '🎯'] },
+      love: { emoji: '❤️', text: '收到爱心，超级开心！', particles: ['❤️', '💕', '💗', '💖'] }
+    };
+
+    const c = config[action];
+    showBubble(c.emoji + ' ' + c.text);
+    spawnParticles(c.particles);
+
+    // 开心跳跃动画
+    const character = document.getElementById('character');
+    character.style.animation = 'none';
+    character.offsetHeight;
+    character.style.animation = 'jumpHappy 0.6s ease';
+    setTimeout(() => {
+      character.style.animation = currentStatus === 'sleep' ? 'sleepFloat 4s ease-in-out infinite' :
+                                   currentStatus === 'walk' ? 'walkBounce 0.3s ease-in-out infinite' :
+                                   'float 3s ease-in-out infinite';
+    }, 600);
+  }
+
+  // 跳跃动画
+  const jumpStyle = document.createElement('style');
+  jumpStyle.textContent = `
+    @keyframes jumpHappy {
+      0% { transform: translateY(0) scale(1); }
+      30% { transform: translateY(-20px) scale(1.05); }
+      50% { transform: translateY(-20px) scale(1.05) rotate(5deg); }
+      70% { transform: translateY(-20px) scale(1.05) rotate(-5deg); }
+      100% { transform: translateY(0) scale(1); }
+    }
+  `;
+  document.head.appendChild(jumpStyle);
+
+  // ===== 双击互动 =====
+  pet.addEventListener('dblclick', () => {
+    interactPet('love');
+  });
+
+  // ===== 自动演示 =====
+  function toggleAutoPlay() {
+    closeMenu();
+    const badge = document.getElementById('autoBadge');
+
+    if (isAutoPlaying) {
+      clearInterval(autoPlayTimer);
+      isAutoPlaying = false;
+      badge.classList.remove('show');
+    } else {
+      isAutoPlaying = true;
+      badge.classList.add('show');
+      badge.innerHTML = '<div class="auto-dot"></div><span>自动演示中 · 点击暂停</span>';
+
+      const statuses = Object.keys(STATUS_CONFIG);
+      let idx = statuses.indexOf(currentStatus);
+
+      autoPlayTimer = setInterval(() => {
+        idx = (idx + 1) % statuses.length;
+        setStatus(statuses[idx], true);
+      }, 4000);
+    }
+  }
+
+  // ===== 时钟 =====
+  function updateClock() {
+    const now = new Date();
+    const h = now.getHours().toString().padStart(2, '0');
+    const m = now.getMinutes().toString().padStart(2, '0');
+    document.getElementById('taskbarTime').textContent = `${h}:${m}`;
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // ===== 初始化 =====
+  setStatus('homework', true);
+
+  // 5秒后自动开始演示
+  setTimeout(() => {
+    if (!isAutoPlaying) {
+      toggleAutoPlay();
+    }
+  }, 5000);
+</script>
+
+</body>
+</html>
