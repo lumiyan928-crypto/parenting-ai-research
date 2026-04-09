@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家庭AI育娃调研分析报告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0; --bg-card: #FFFFFF; --bg-muted: #F0EDE6;
+    --text: #1A1814; --text-2: #5C5750; --text-3: #9B9489;
+    --border: rgba(30,24,16,0.1); --border-2: rgba(30,24,16,0.18);
+    --purple-l: #EEEDFE; --purple-d: #3C3489;
+    --teal-l: #E1F5EE; --teal-d: #085041;
+    --coral-l: #FAECE7; --coral-d: #712B13;
+    --blue-l: #E6F1FB; --blue-d: #0C447C;
+    --amber-l: #FAEEDA; --amber-d: #633806;
+    --serif: 'Noto Serif SC', serif; --sans: 'Noto Sans SC', sans-serif;
+    --radius: 12px; --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  /* NAVBAR */
+  .navbar { position: sticky; top: 0; z-index: 100; background: rgba(26,24,20,0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+  .navbar-inner { max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; height: 48px; }
+  .navbar-logo { font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; margin-right: 28px; flex-shrink: 0; }
+  .navbar-links { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+  .navbar-links::-webkit-scrollbar { display: none; }
+  .navbar-link { font-size: 12px; color: rgba(255,255,255,0.45); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: color 0.15s, background 0.15s; }
+  .navbar-link:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.07); }
+  .navbar-link.active { color: #fff; background: rgba(255,255,255,0.1); }
+
+  /* HEADER */
+  .header { background: var(--text); color: #fff; padding: 56px 0 48px; text-align: center; }
+  .header-tag { display: inline-block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 18px; font-weight: 300; }
+  .header h1 { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 12px; }
+  .header-sub { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 300; }
+  .header-meta { display: flex; justify-content: center; gap: 32px; margin-top: 32px; flex-wrap: wrap; }
+  .meta-item { text-align: center; }
+  .meta-num { font-family: var(--serif); font-size: 28px; font-weight: 700; color: #fff; }
+  .meta-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+  /* LAYOUT */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 48px 0 0; }
+  .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 24px; }
+  .section-num { font-family: var(--serif); font-size: 13px; color: var(--text-3); font-weight: 400; flex-shrink: 0; }
+  .section-title { font-family: var(--serif); font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+
+  /* CARDS */
+  .overview-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 28px 28px 24px; margin-bottom: 16px; }
+  .update-badge { font-size: 11px; color: var(--text-3); background: var(--bg-muted); border-radius: 6px; padding: 4px 10px; display: inline-block; margin-bottom: 14px; }
+  .seg-bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; gap: 2px; margin-bottom: 12px; }
+  .seg-bar-part { height: 100%; }
+  .seg-bar-part:first-child { border-radius: 7px 0 0 7px; }
+  .seg-bar-part:last-child { border-radius: 0 7px 7px 0; }
+  .seg-legend { display: flex; gap: 20px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .seg-cards { display: grid; gap: 10px; }
+  .seg-row { display: flex; align-items: center; gap: 14px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+  .seg-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; min-width: 72px; text-align: center; flex-shrink: 0; }
+  .seg-row-body { flex: 1; }
+  .seg-row-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+  .seg-row-sub { font-size: 11px; color: var(--text-3); }
+  .seg-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .tag { font-size: 11px; padding: 1px 8px; border-radius: 10px; background: var(--bg-muted); color: var(--text-2); }
+  .seg-count { font-size: 13px; color: var(--text-3); flex-shrink: 0; font-weight: 300; }
+
+  /* AGE SECTION */
+  .age-section { margin-top: 40px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .age-header { display: flex; align-items: center; gap: 16px; padding: 24px 28px; border-bottom: 0.5px solid var(--border); }
+  .age-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+  .age-title { font-family: var(--serif); font-size: 19px; font-weight: 700; margin-bottom: 2px; }
+  .age-subtitle { font-size: 12px; color: var(--text-3); }
+  .age-body { padding: 24px 28px; }
+  .sub-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin: 20px 0 10px; }
+  .sub-label:first-child { margin-top: 0; }
+  .divider { height: 0.5px; background: var(--border); margin: 20px 0; }
+
+  /* PAIN BARS */
+  .pain-list { display: flex; flex-direction: column; gap: 8px; }
+  .pain-row { display: flex; align-items: center; gap: 10px; }
+  .pain-label { font-size: 12px; color: var(--text-2); width: 88px; flex-shrink: 0; }
+  .pain-track { flex: 1; height: 8px; background: var(--bg-muted); border-radius: 4px; overflow: hidden; }
+  .pain-fill { height: 100%; border-radius: 4px; }
+  .pain-rank { font-size: 11px; color: var(--text-3); min-width: 70px; text-align: right; }
+
+  /* DETAIL CARDS */
+  .detail-cards { display: flex; flex-direction: column; gap: 10px; }
+  .detail-card { display: flex; gap: 12px; background: var(--bg-muted); border-radius: var(--radius-sm); padding: 14px 16px; }
+  .detail-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; background: var(--bg-card); }
+  .detail-body { flex: 1; }
+  .detail-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .detail-desc { font-size: 12px; color: var(--text-2); line-height: 1.6; }
+  .detail-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .chip { font-size: 11px; padding: 1px 8px; border-radius: 10px; }
+  .chip-hot { background: var(--coral-l); color: var(--coral-d); }
+  .chip-mid { background: var(--teal-l); color: var(--teal-d); }
+  .chip-base { background: var(--bg-muted); color: var(--text-2); border: 0.5px solid var(--border); }
+  .quotes { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .quote { font-size: 12px; color: var(--text-2); font-style: italic; background: var(--bg-card); border-left: 2px solid var(--border-2); padding: 6px 10px; border-radius: 0 4px 4px 0; line-height: 1.6; }
+
+  /* VOTE BARS */
+  .vote-list { display: flex; flex-direction: column; gap: 7px; }
+  .vote-row { display: flex; align-items: center; gap: 10px; }
+  .vote-label { font-size: 12px; color: var(--text-2); flex: 1; }
+  .vote-track { width: 100px; height: 6px; background: var(--bg-muted); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+  .vote-fill { height: 100%; border-radius: 3px; }
+  .vote-num { font-size: 11px; color: var(--text-3); min-width: 32px; text-align: right; }
+
+  /* FEATURE GRID */
+  .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .feat-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
+  .feat-tag { font-size: 10px; padding: 1px 8px; border-radius: 10px; display: inline-block; margin-bottom: 6px; font-weight: 500; }
+  .feat-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .feat-desc { font-size: 11px; color: var(--text-2); line-height: 1.5; }
+
+  /* INSIGHT */
+  .insight { border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 16px; }
+  .insight-title { font-size: 12px; font-weight: 500; margin-bottom: 4px; }
+  .insight-desc { font-size: 12px; line-height: 1.7; }
+
+  /* COMPARE TABLE */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .compare-table th { text-align: left; padding: 8px 10px; color: var(--text-3); font-weight: 400; font-size: 11px; border-bottom: 1px solid var(--border); }
+  .compare-table th.c { text-align: center; }
+  .compare-table td { padding: 9px 10px; border-bottom: 0.5px solid var(--border); color: var(--text-2); vertical-align: middle; }
+  .compare-table td.c { text-align: center; }
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  /* INDIVIDUAL PROFILE */
+  .profile-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
+  .profile-header { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border-bottom: 0.5px solid var(--border); }
+  .profile-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .profile-name { font-family: var(--serif); font-size: 17px; font-weight: 700; }
+  .profile-meta { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .profile-body { padding: 20px 24px; }
+  .profile-section-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .profile-section-title::before { content: ''; width: 3px; height: 14px; border-radius: 2px; flex-shrink: 0; }
+  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .profile-item { background: var(--bg-muted); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .profile-item-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .profile-item-value { font-size: 13px; font-weight: 500; }
+  .profile-ranking { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .rank-chip { padding: 4px 10px; border-radius: 14px; font-size: 11px; font-weight: 500; }
+  .profile-quote-box { background: var(--bg-muted); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 16px; }
+  .profile-quote-item { font-size: 12px; color: var(--text-2); font-style: italic; line-height: 1.7; padding: 4px 0; border-bottom: 0.5px solid var(--border); }
+  .profile-quote-item:last-child { border-bottom: none; }
+  .profile-func-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .func-tag { padding: 4px 12px; border-radius: 14px; font-size: 11px; font-weight: 500; border: 0.5px solid var(--border); }
+  .profile-insight { border-radius: var(--radius-sm); padding: 12px 14px; }
+
+  .footer { text-align: center; padding: 48px 0 56px; color: var(--text-3); font-size: 12px; line-height: 1.8; }
+
+  @media (max-width: 600px) {
+    .feat-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 24px; }
+    .header-meta { gap: 20px; }
+    .age-body, .age-header { padding: 16px 18px; }
+    .overview-card { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="navbar-logo">家庭AI育娃报告</div>
+    <div class="navbar-links">
+      <a class="navbar-link" href="#overview">年龄层总览</a>
+      <a class="navbar-link" href="#age-0-3">婴幼儿期 0–3岁</a>
+      <a class="navbar-link" href="#age-3-6">学前期 3–6岁</a>
+      <a class="navbar-link" href="#age-6-9">小学低年级 6–9岁</a>
+      <a class="navbar-link" href="#age-9-12">小学中高年级 9–13岁</a>
+      <a class="navbar-link" href="#compare">横向对比</a>
+      <a class="navbar-link" href="#individual">个人分析</a>
+    </div>
+  </div>
+</nav>
+
+<div class="header">
+  <div class="container">
+    <div class="header-tag">家长育娃场景 · 用户调研报告</div>
+    <h1>家庭AI育娃调研分析报告</h1>
+    <div class="header-sub">问卷回收日期：2026年4月 · 广东深圳 · 数据更新于 2026年4月9日</div>
+    <div class="header-meta">
+      <div class="meta-item"><div class="meta-num">19</div><div class="meta-label">有效问卷</div></div>
+      <div class="meta-item"><div class="meta-num">22</div><div class="meta-label">涉及孩子数</div></div>
+      <div class="meta-item"><div class="meta-num">4</div><div class="meta-label">年龄层划分</div></div>
+      <div class="meta-item"><div class="meta-num">1.5–13</div><div class="meta-label">实际年龄范围（岁）</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 总览 -->
+  <div class="section" id="overview">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">年龄层划分总览</span>
+    </div>
+    <div class="overview-card">
+      <div class="update-badge">📅 最新数据：19份问卷 · 22名孩子 · 2026年4月9日更新</div>
+      <div class="seg-bar">
+        <div class="seg-bar-part" style="flex:5;background:#AFA9EC;"></div>
+        <div class="seg-bar-part" style="flex:5;background:#5DCAA5;"></div>
+        <div class="seg-bar-part" style="flex:5;background:#F0997B;"></div>
+        <div class="seg-bar-part" style="flex:7;background:#85B7EB;"></div>
+      </div>
+      <div class="seg-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#AFA9EC;"></div>婴幼儿期 0–3岁（5人）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5;"></div>学前期 3–6岁（5人）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F0997B;"></div>小学低年级 6–9岁（5人）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#85B7EB;"></div>小学中高年级 9–13岁（7人）</div>
+      </div>
+    </div>
+    <div class="seg-cards">
+      <div class="seg-row">
+        <div class="seg-badge" style="background:#EEEDFE;color:#534AB7;">0–3 岁</div>
+        <div class="seg-row-body">
+          <div class="seg-row-name">婴幼儿期</div>
+          <div class="seg-row-sub">样本5人 · 1.5岁×2、2岁×1、2岁8个月、3岁 · 家长：程甜、刘军平、tobyma、陈丹妮、武美丽</div>
+          <div class="seg-tags"><span class="tag">身心健康为最高痛点</span><span class="tag">习惯养成紧随其后</span><span class="tag">学习压力几乎为零</span><span class="tag">故事绘本需求强</span><span class="tag">家长重度使用AI</span></div>
+        </div>
+        <div class="seg-count">5 人</div>
+      </div>
+      <div class="seg-row">
+        <div class="seg-badge" style="background:#E1F5EE;color:#0F6E56;">3–6 岁</div>
+        <div class="seg-row-body">
+          <div class="seg-row-name">学前期</div>
+          <div class="seg-row-sub">样本5人 · 5岁×1、6岁×4（含多孩家庭）· 家长：汪建军、zijianhuang、涂海龙、杨真、赵伟</div>
+          <div class="seg-tags"><span class="tag">习惯养成为最高痛点</span><span class="tag">素质发展初受关注</span><span class="tag">创造力/口才培养</span><span class="tag">电子宠物吸引力强</span><span class="tag">工具化程度最低</span></div>
+        </div>
+        <div class="seg-count">5 人</div>
+      </div>
+      <div class="seg-row">
+        <div class="seg-badge" style="background:#FAECE7;color:#993C1D;">6–9 岁</div>
+        <div class="seg-row-body">
+          <div class="seg-row-name">小学低年级</div>
+          <div class="seg-row-sub">样本5人 · 8岁×1、9岁×4（含多孩家庭）· 家长：赵书影、allenyu、iris、赵正武、赵伟</div>
+          <div class="seg-tags"><span class="tag">学习与习惯并列第一</span><span class="tag">督促写作业全票</span><span class="tag">专注力/自驱力缺失</span><span class="tag">AI工具初步渗透</span><span class="tag">十万个为什么高票</span></div>
+        </div>
+        <div class="seg-count">5 人</div>
+      </div>
+      <div class="seg-row">
+        <div class="seg-badge" style="background:#E6F1FB;color:#185FA5;">9–13 岁</div>
+        <div class="seg-row-body">
+          <div class="seg-row-name">小学中高年级</div>
+          <div class="seg-row-sub">样本7人 · 10岁、11岁×3、12岁、13岁（含多孩家庭）· 家长：杨真、奇妙、陈洁、马培羽、涂海龙、alick、eragonhuang</div>
+          <div class="seg-tags"><span class="tag">习惯养成重回第一</span><span class="tag">学习辅导立体化</span><span class="tag">电子设备管控升温</span><span class="tag">AI孩子端渗透</span><span class="tag">成长记录&提醒坐姿首位</span></div>
+        </div>
+        <div class="seg-count">7 人</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 婴幼儿期 -->
+  <div class="section" id="age-0-3">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">婴幼儿期（0–3岁）深度分析</span>
+    </div>
+    <div class="age-section">
+      <div class="age-header">
+        <div class="age-badge" style="background:#EEEDFE;color:#534AB7;">0–3 岁</div>
+        <div class="age-header-body">
+          <div class="age-title">婴幼儿期</div>
+          <div class="age-subtitle">样本5人 · 照料者以"其他亲属"为主（3/5）· 孩子性格均为活泼好动<br>家长：程甜、刘军平、tobyma、陈丹妮、武美丽</div>
+        </div>
+      </div>
+      <div class="age-body">
+        <div class="sub-label">核心痛点排序（平均排名，1最心累）</div>
+        <div class="pain-list">
+          <div class="pain-row"><div class="pain-label">身心健康</div><div class="pain-track"><div class="pain-fill" style="width:95%;background:#AFA9EC;"></div></div><div class="pain-rank">№ 1 · avg 1.6</div></div>
+          <div class="pain-row"><div class="pain-label">习惯养成</div><div class="pain-track"><div class="pain-fill" style="width:75%;background:#5DCAA5;"></div></div><div class="pain-rank">№ 2 · avg 2.0</div></div>
+          <div class="pain-row"><div class="pain-label">学习相关</div><div class="pain-track"><div class="pain-fill" style="width:35%;background:#F0997B;"></div></div><div class="pain-rank">№ 3 · avg 3.2</div></div>
+          <div class="pain-row"><div class="pain-label">素质发展</div><div class="pain-track"><div class="pain-fill" style="width:35%;background:#B4B2A9;"></div></div><div class="pain-rank">№ 3 · avg 3.2</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">具体痛点与真实声音</div>
+        <div class="detail-cards">
+          <div class="detail-card">
+            <div class="detail-icon">🍼</div>
+            <div class="detail-body">
+              <div class="detail-title">挑食 & 进食行为是首位身心痛点</div>
+              <div class="detail-desc">5人中3人明确提到挑食/不爱吃饭，另有"吃饭不专注边吃边玩"、"挠人扯头发丢饭"等描述，进食管理是这个年龄段最真实的日常消耗场景。</div>
+              <div class="detail-chips"><span class="chip chip-hot">挑食/不爱吃饭 3/5</span><span class="chip chip-mid">吃饭不专注 1/5</span></div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">🛏</div>
+            <div class="detail-body">
+              <div class="detail-title">规律作息 & 电子设备是习惯养成双痛点</div>
+              <div class="detail-desc">习惯养成排名第二，集中在睡眠作息和手机/平板使用时间管控。孩子年龄虽小，电子设备的争夺战已经开始。</div>
+              <div class="detail-chips"><span class="chip chip-hot">规律作息 2/5</span><span class="chip chip-mid">电子设备 1/5</span></div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">📖</div>
+            <div class="detail-body">
+              <div class="detail-title">学习无压力，但早期启蒙意识已萌芽</div>
+              <div class="detail-desc">5人均将学习排在末位，但2人已有早期启蒙行动（英语故事、阅读兴趣、口才训练）。"低压力高期待"是这个阶段家长的典型心态。</div>
+              <div class="quotes">
+                <div class="quote">「现在还在玩阶段，偶尔给他听一些英语、童话故事」—— 刘军平</div>
+                <div class="quote">「还没到要卷学习的年纪」—— 武美丽</div>
+                <div class="quote">「自己听故事，别来烦我」—— 程甜</div>
+              </div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">🤖</div>
+            <div class="detail-body">
+              <div class="detail-title">家长重度使用AI，但用途是给自己查育儿方案</div>
+              <div class="detail-desc">5人中4人使用AI工具，是所有年龄段AI渗透率最高的群体。但用途是家长自己查资料、对比方案，而非给孩子直接使用。</div>
+              <div class="quotes">
+                <div class="quote">「准备养一个数字妈妈，有问题都问数字妈妈，别来烦我」—— 武美丽</div>
+                <div class="quote">「AI工具只对家长有一点帮助，关键还是要靠家长怎么和孩子沟通」—— 陈丹妮</div>
+                <div class="quote">「问AI，豆包，元宝，阿福，千问，然后对比」—— 程甜</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">家长选出的最有用功能（限选3项，n=5）</div>
+        <div class="vote-list">
+          <div class="vote-row"><div class="vote-label">讲故事 / 读绘本</div><div class="vote-track"><div class="vote-fill" style="width:80%;background:#AFA9EC;"></div></div><div class="vote-num">4/5</div></div>
+          <div class="vote-row"><div class="vote-label">成长记录推送给家长</div><div class="vote-track"><div class="vote-fill" style="width:80%;background:#5DCAA5;"></div></div><div class="vote-num">4/5</div></div>
+          <div class="vote-row"><div class="vote-label">记住孩子·像真正的朋友</div><div class="vote-track"><div class="vote-fill" style="width:40%;background:#85B7EB;"></div></div><div class="vote-num">2/5</div></div>
+          <div class="vote-row"><div class="vote-label">解答十万个为什么</div><div class="vote-track"><div class="vote-fill" style="width:40%;background:#F0997B;"></div></div><div class="vote-num">2/5</div></div>
+          <div class="vote-row"><div class="vote-label">陪孩子学习</div><div class="vote-track"><div class="vote-fill" style="width:20%;background:#B4B2A9;"></div></div><div class="vote-num">1/5</div></div>
+          <div class="vote-row"><div class="vote-label">电子宠物</div><div class="vote-track"><div class="vote-fill" style="width:20%;background:#B4B2A9;"></div></div><div class="vote-num">1/5</div></div>
+          <div class="vote-row"><div class="vote-label">提醒坐姿 / 防走神</div><div class="vote-track"><div class="vote-fill" style="width:20%;background:#B4B2A9;"></div></div><div class="vote-num">1/5</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">功能设计建议</div>
+        <div class="feat-grid">
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#EEEDFE;color:#534AB7;">核心 · 4/5选</div>
+            <div class="feat-name">故事 & 绘本陪伴</div>
+            <div class="feat-desc">价值不在内容库大小，而是"解放家长陪伴时间"——玩具能独立陪孩子30分钟就是成功。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#EEEDFE;color:#534AB7;">核心 · 4/5选</div>
+            <div class="feat-name">情绪 & 成长记录</div>
+            <div class="feat-desc">默默记录，定期推送给家长。本质是"你帮我盯着，我放心走开"，适配隔代看护场景。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#E1F5EE;color:#0F6E56;">中优 · 2/5选</div>
+            <div class="feat-name">个性化记忆</div>
+            <div class="feat-desc">记住孩子名字、喜好，建立"真朋友感"。这个年龄段价值更多是情感联结而非功能使用。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAECE7;color:#993C1D;">机会点</div>
+            <div class="feat-name">家长端 AI 育儿顾问</div>
+            <div class="feat-desc">家长已重度使用通用AI，缺专业育儿场景整合入口。给家长用，不是给孩子用。</div>
+          </div>
+        </div>
+        <div class="insight" style="background:#FAECE7;">
+          <div class="insight-title" style="color:#993C1D;">⚡ 核心洞察：家长要的是"解放"，不是"辅助"</div>
+          <div class="insight-desc" style="color:#4A1B0C;">0–3岁家长的核心诉求是"把孩子交出去"。讲故事和成长记录并列第一，本质都是同一件事：产品帮忙陪、家长安心离开。身心健康排在痛点第一位，饮食/睡眠类引导内容也有潜在机会。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 学前期 -->
+  <div class="section" id="age-3-6">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">学前期（3–6岁）深度分析</span>
+    </div>
+    <div class="age-section">
+      <div class="age-header">
+        <div class="age-badge" style="background:#E1F5EE;color:#0F6E56;">3–6 岁</div>
+        <div class="age-header-body">
+          <div class="age-title">学前期</div>
+          <div class="age-subtitle">样本5人 · 5岁×1、6岁×4 · 照料者以本人/配偶为主 · 活泼好动3人，安静内敛2人<br>家长：汪建军、zijianhuang、涂海龙、杨真、赵伟</div>
+        </div>
+      </div>
+      <div class="age-body">
+        <div class="sub-label">核心痛点排序（平均排名，1最心累）</div>
+        <div class="pain-list">
+          <div class="pain-row"><div class="pain-label">习惯养成</div><div class="pain-track"><div class="pain-fill" style="width:96%;background:#5DCAA5;"></div></div><div class="pain-rank">№ 1 · avg 1.4</div></div>
+          <div class="pain-row"><div class="pain-label">身心健康</div><div class="pain-track"><div class="pain-fill" style="width:56%;background:#AFA9EC;"></div></div><div class="pain-rank">№ 2 · avg 2.6</div></div>
+          <div class="pain-row"><div class="pain-label">学习相关</div><div class="pain-track"><div class="pain-fill" style="width:40%;background:#F0997B;"></div></div><div class="pain-rank">№ 3 · avg 3.0</div></div>
+          <div class="pain-row"><div class="pain-label">素质发展</div><div class="pain-track"><div class="pain-fill" style="width:40%;background:#B4B2A9;"></div></div><div class="pain-rank">№ 3 · avg 3.0</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">具体痛点与真实声音</div>
+        <div class="detail-cards">
+          <div class="detail-card">
+            <div class="detail-icon">📐</div>
+            <div class="detail-body">
+              <div class="detail-title">规律作息延续，社会规则建立是新焦点</div>
+              <div class="detail-desc">习惯养成仍是最高痛点，随孩子进入幼儿园，从家庭作息延伸到"遵守社交和学校规矩"、卫生习惯，集体生活带来了新的规则挑战。</div>
+              <div class="detail-chips"><span class="chip chip-hot">规律作息 4/5</span><span class="chip chip-mid">卫生习惯 1/5</span><span class="chip chip-mid">社交规则 1/5</span><span class="chip chip-mid">电子设备 1/5</span></div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">🎨</div>
+            <div class="detail-body">
+              <div class="detail-title">素质发展全面受关注，阅读兴趣居首</div>
+              <div class="detail-desc">与0-3岁的核心差异：培养阅读兴趣、创造力、口才表达三项同时出现，"全面启蒙"的压力开始成形，但工具化程度在四个年龄段中最低。</div>
+              <div class="detail-chips"><span class="chip chip-hot">培养阅读兴趣 3/5</span><span class="chip chip-hot">创造力培养 2/5</span><span class="chip chip-mid">口才/表达 1/5</span></div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">📚</div>
+            <div class="detail-body">
+              <div class="detail-title">学习压力萌芽，工具承接空白感强</div>
+              <div class="detail-desc">有家长出现"督促写作业"的场景（多孩家庭），但应对方式几乎全靠人力，且明确表示"没想到其他好办法"，对工具的诉求有但尚未被满足。</div>
+              <div class="quotes">
+                <div class="quote">「没想到其他好办法」—— zijianhuang</div>
+                <div class="quote">「苦口婆心，奖惩结合」—— 汪建军</div>
+                <div class="quote">「允许孩子自己用AI开拓写作思维」—— 赵伟</div>
+                <div class="quote">「还是每个场景不一样，存在的问题不一样」—— 杨真</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">家长选出的最有用功能（限选3项，n=5）</div>
+        <div class="vote-list">
+          <div class="vote-row"><div class="vote-label">解答十万个为什么</div><div class="vote-track"><div class="vote-fill" style="width:60%;background:#5DCAA5;"></div></div><div class="vote-num">3/5</div></div>
+          <div class="vote-row"><div class="vote-label">讲故事 / 读绘本</div><div class="vote-track"><div class="vote-fill" style="width:40%;background:#AFA9EC;"></div></div><div class="vote-num">2/5</div></div>
+          <div class="vote-row"><div class="vote-label">电子宠物</div><div class="vote-track"><div class="vote-fill" style="width:40%;background:#F0997B;"></div></div><div class="vote-num">2/5</div></div>
+          <div class="vote-row"><div class="vote-label">记住孩子·像真正的朋友</div><div class="vote-track"><div class="vote-fill" style="width:20%;background:#85B7EB;"></div></div><div class="vote-num">1/5</div></div>
+          <div class="vote-row"><div class="vote-label">成长记录推送</div><div class="vote-track"><div class="vote-fill" style="width:20%;background:#B4B2A9;"></div></div><div class="vote-num">1/5</div></div>
+          <div class="vote-row"><div class="vote-label">提醒坐姿 / 防走神</div><div class="vote-track"><div class="vote-fill" style="width:20%;background:#B4B2A9;"></div></div><div class="vote-num">1/5</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">功能设计建议</div>
+        <div class="feat-grid">
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#E1F5EE;color:#0F6E56;">核心 · 3/5选</div>
+            <div class="feat-name">十万个为什么</div>
+            <div class="feat-desc">好奇心爆发期。重点是"反问启发思考"而非只给答案，引导式对话比百科全书更有价值。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#E1F5EE;color:#0F6E56;">高优 · 2/5（并列）</div>
+            <div class="feat-name">故事 & 绘本陪伴</div>
+            <div class="feat-desc">延续0-3岁需求，这个年龄孩子已有互动能力，可加入角色扮演、续写故事等双向互动玩法。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAECE7;color:#993C1D;">高优 · 2/5（并列）</div>
+            <div class="feat-name">电子宠物</div>
+            <div class="feat-desc">首次出现在高优位置。孩子有"养成"意识，责任感和规律性可通过宠物机制正向培养。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAEEDA;color:#633806;">机会点</div>
+            <div class="feat-name">素质发展引导</div>
+            <div class="feat-desc">创造力、口才、阅读三项焦虑无产品承接，开放性创作、朗读、讲故事功能可填补空白。</div>
+          </div>
+        </div>
+        <div class="insight" style="background:#E1F5EE;">
+          <div class="insight-title" style="color:#0F6E56;">⚡ 核心洞察：从"陪伴"到"启蒙"的转折点</div>
+          <div class="insight-desc" style="color:#085041;">3-6岁是功能诉求从"解放家长"转向"激发孩子"的分水岭。"十万个为什么"需求首次进入前列，说明互动质量比内容数量更重要。电子宠物也首次高票，孩子的主动性和责任感开始值得产品设计关注。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 小学低年级 -->
+  <div class="section" id="age-6-9">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">小学低年级（6–9岁）深度分析</span>
+    </div>
+    <div class="age-section">
+      <div class="age-header">
+        <div class="age-badge" style="background:#FAECE7;color:#993C1D;">6–9 岁</div>
+        <div class="age-header-body">
+          <div class="age-title">小学低年级</div>
+          <div class="age-subtitle">样本5人 · 8岁×1、9岁×4 · 照料者以配偶/本人为主 · 活泼好动4人，安静内敛1人<br>家长：赵书影、allenyu、iris、赵正武、赵伟</div>
+        </div>
+      </div>
+      <div class="age-body">
+        <div class="sub-label">核心痛点排序（平均排名，1最心累）</div>
+        <div class="pain-list">
+          <div class="pain-row"><div class="pain-label">学习相关</div><div class="pain-track"><div class="pain-fill" style="width:75%;background:#F0997B;"></div></div><div class="pain-rank">№ 1 · avg 2.0</div></div>
+          <div class="pain-row"><div class="pain-label">习惯养成</div><div class="pain-track"><div class="pain-fill" style="width:75%;background:#5DCAA5;"></div></div><div class="pain-rank">№ 1 · avg 2.0</div></div>
+          <div class="pain-row"><div class="pain-label">身心健康</div><div class="pain-track"><div class="pain-fill" style="width:56%;background:#AFA9EC;"></div></div><div class="pain-rank">№ 3 · avg 2.6</div></div>
+          <div class="pain-row"><div class="pain-label">素质发展</div><div class="pain-track"><div class="pain-fill" style="width:20%;background:#B4B2A9;"></div></div><div class="pain-rank">№ 4 · avg 3.4</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">具体痛点与真实声音</div>
+        <div class="detail-cards">
+          <div class="detail-card">
+            <div class="detail-icon">✏️</div>
+            <div class="detail-body">
+              <div class="detail-title">督促写作业全票，讲题已超出家长能力边界</div>
+              <div class="detail-desc">5人全部选了"督促写作业/防止走神"，且2人同时选了"讲题/辅导作业"，学科难度已超出家长舒适区，亲子冲突高度集中在学习场景。</div>
+              <div class="detail-chips"><span class="chip chip-hot">督促写作业 5/5</span><span class="chip chip-hot">讲题/辅导 2/5</span><span class="chip chip-mid">培养阅读兴趣 2/5</span><span class="chip chip-mid">创造力培养 2/5</span></div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">😤</div>
+            <div class="detail-body">
+              <div class="detail-title">缺乏自驱力是深层问题，情绪浓度最高</div>
+              <div class="detail-desc">这个年龄段的反馈是四组中情绪最外露的，出现"绝望"、"反应后置"等高强度表达，家长不只有痛点，而是已陷入疲惫循环。</div>
+              <div class="quotes">
+                <div class="quote">「缺少自驱力」—— iris</div>
+                <div class="quote">「以上方式都用过，效果不佳，可能孩子不是你的，你是感受不了那种绝望」—— 赵正武</div>
+                <div class="quote">「大多数情况反应后置，因为情绪习惯的问题，很多时候突发」—— 赵书影</div>
+                <div class="quote">「孩子自由生长就好」（另一位家长的佛系应对）—— iris</div>
+              </div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">🤖</div>
+            <div class="detail-body">
+              <div class="detail-title">AI工具开始从家长端向孩子端渗透</div>
+              <div class="detail-desc">2人明确使用AI辅助学习（豆包检查作业、允许孩子用AI开拓写作思维），是AI首次出现在孩子端使用的年龄层，工具意识在提升但尚不成体系。</div>
+              <div class="detail-chips"><span class="chip chip-mid">使用AI工具 2/5</span><span class="chip chip-base">使用其他工具 1/5</span><span class="chip chip-base">纯人力解决 2/5</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">家长选出的最有用功能（限选3项，n=5）</div>
+        <div class="vote-list">
+          <div class="vote-row"><div class="vote-label">解答十万个为什么</div><div class="vote-track"><div class="vote-fill" style="width:80%;background:#F0997B;"></div></div><div class="vote-num">4/5</div></div>
+          <div class="vote-row"><div class="vote-label">陪孩子学习·一步步教</div><div class="vote-track"><div class="vote-fill" style="width:40%;background:#AFA9EC;"></div></div><div class="vote-num">2/5</div></div>
+          <div class="vote-row"><div class="vote-label">成长记录推送</div><div class="vote-track"><div class="vote-fill" style="width:40%;background:#5DCAA5;"></div></div><div class="vote-num">2/5</div></div>
+          <div class="vote-row"><div class="vote-label">提醒坐姿 / 防走神</div><div class="vote-track"><div class="vote-fill" style="width:40%;background:#85B7EB;"></div></div><div class="vote-num">2/5</div></div>
+          <div class="vote-row"><div class="vote-label">讲故事 / 读绘本</div><div class="vote-track"><div class="vote-fill" style="width:20%;background:#B4B2A9;"></div></div><div class="vote-num">1/5</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">功能设计建议</div>
+        <div class="feat-grid">
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAECE7;color:#993C1D;">核心 · 4/5选</div>
+            <div class="feat-name">启发式问答</div>
+            <div class="feat-desc">全票高选。重点是反问启发而非直接给答案，好奇心和自主解决能力要同步培养。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAECE7;color:#993C1D;">高优 · 2/5（并列）</div>
+            <div class="feat-name">学习辅助·一步步引导</div>
+            <div class="feat-desc">讲题场景已超出家长能力。产品应能引导推理而非直接给答案，保留孩子思考空间。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAECE7;color:#993C1D;">高优 · 2/5（并列）</div>
+            <div class="feat-name">专注力监测 & 提醒</div>
+            <div class="feat-desc">"防止走神"全票痛点，坐姿/注意力提醒在真实写作业场景有需求，应设计为温和非对抗式。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAEEDA;color:#633806;">机会点</div>
+            <div class="feat-name">自驱力激励机制</div>
+            <div class="feat-desc">"缺乏自驱力"是这个年龄段深层诉求，游戏化目标设定、成就系统可作为差异化切入点。</div>
+          </div>
+        </div>
+        <div class="insight" style="background:#FAECE7;">
+          <div class="insight-title" style="color:#993C1D;">⚡ 核心洞察：学习焦虑爆发，家长情绪消耗到达峰值</div>
+          <div class="insight-desc" style="color:#4A1B0C;">6-9岁是所有年龄段中家长痛苦指数最高的区间。"督促写作业"5/5全票，且有家长用"绝望"描述现状。产品的价值不只是辅助学习，更要能降低家长的情绪消耗——让"检查和讲题"这两件最耗能的事有工具承接。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 小学中高年级 -->
+  <div class="section" id="age-9-12">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">小学中高年级（9–13岁）深度分析</span>
+    </div>
+    <div class="age-section">
+      <div class="age-header">
+        <div class="age-badge" style="background:#E6F1FB;color:#185FA5;">9–13 岁</div>
+        <div class="age-header-body">
+          <div class="age-title">小学中高年级</div>
+          <div class="age-subtitle">样本7人（最大组）· 10岁、11岁×3、12岁、13岁（含多孩家庭）· 安静内敛3人，活泼好动4人<br>家长：杨真、奇妙、陈洁、马培羽、涂海龙、alick、eragonhuang</div>
+        </div>
+      </div>
+      <div class="age-body">
+        <div class="sub-label">核心痛点排序（平均排名，1最心累）</div>
+        <div class="pain-list">
+          <div class="pain-row"><div class="pain-label">习惯养成</div><div class="pain-track"><div class="pain-fill" style="width:96%;background:#85B7EB;"></div></div><div class="pain-rank">№ 1 · avg 1.6</div></div>
+          <div class="pain-row"><div class="pain-label">学习相关</div><div class="pain-track"><div class="pain-fill" style="width:78%;background:#AFA9EC;"></div></div><div class="pain-rank">№ 2 · avg 1.9</div></div>
+          <div class="pain-row"><div class="pain-label">素质发展</div><div class="pain-track"><div class="pain-fill" style="width:40%;background:#5DCAA5;"></div></div><div class="pain-rank">№ 3 · avg 3.0</div></div>
+          <div class="pain-row"><div class="pain-label">身心健康</div><div class="pain-track"><div class="pain-fill" style="width:18%;background:#B4B2A9;"></div></div><div class="pain-rank">№ 4 · avg 3.6</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">具体痛点与真实声音</div>
+        <div class="detail-cards">
+          <div class="detail-card">
+            <div class="detail-icon">📋</div>
+            <div class="detail-body">
+              <div class="detail-title">习惯养成反超学习，重回第一痛点</div>
+              <div class="detail-desc">与6-9岁不同，这个年龄段习惯养成（avg 1.6）显著超过学习（avg 1.9）重回第一。孩子自主性增强，规律作息和电子设备管控的难度同步倍增。</div>
+              <div class="detail-chips"><span class="chip chip-hot">规律作息 4/7</span><span class="chip chip-hot">电子设备管控 4/7</span><span class="chip chip-mid">督促写作业 7/7</span><span class="chip chip-mid">听写/背诵 4/7</span><span class="chip chip-mid">讲题/辅导 2/7</span></div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">📱</div>
+            <div class="detail-body">
+              <div class="detail-title">电子设备管控到达临界点，出现极端应对</div>
+              <div class="detail-desc">4人提及电子设备问题，出现"电子设备都锁起来"的极端应对，以及"无法自律、靠积分奖励"的尝试。管控与使用之间的张力在这个年龄段达到顶点。</div>
+              <div class="quotes">
+                <div class="quote">「电子设备都锁起来；无法自律，靠积分奖励」—— alick</div>
+                <div class="quote">「太发散，不专心，躺平」—— 马培羽</div>
+                <div class="quote">「按时写作业，不需要家人催」（少数正向案例）—— 奇妙</div>
+              </div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">🎯</div>
+            <div class="detail-body">
+              <div class="detail-title">AI工具已进入孩子端，从凑合用到主动选</div>
+              <div class="detail-desc">3人明确提到AI或专项工具辅助孩子学习（作业帮、AI扩展解题思路、对比讲解），是孩子端AI使用比例最高的年龄段，工具意识从"凑合用"向"主动选择"升级。另有eragonhuang通过观看育儿博主视频参考经验。</div>
+              <div class="detail-chips"><span class="chip chip-mid">孩子端AI工具 3/7</span><span class="chip chip-base">使用其他工具 2/7</span><span class="chip chip-base">纯人力解决 2/7</span></div>
+              <div class="quotes">
+                <div class="quote">「主要是用作业帮」—— 奇妙</div>
+                <div class="quote">「通过AI扩展解题思路，对比讲解」—— 陈洁</div>
+                <div class="quote">「正常查看，参考经验者的推荐做法」—— eragonhuang</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">家长选出的最有用功能（限选3项，n=7）</div>
+        <div class="vote-list">
+          <div class="vote-row"><div class="vote-label">提醒坐姿 / 防走神</div><div class="vote-track"><div class="vote-fill" style="width:57%;background:#85B7EB;"></div></div><div class="vote-num">4/7</div></div>
+          <div class="vote-row"><div class="vote-label">成长记录推送</div><div class="vote-track"><div class="vote-fill" style="width:43%;background:#AFA9EC;"></div></div><div class="vote-num">3/7</div></div>
+          <div class="vote-row"><div class="vote-label">解答十万个为什么</div><div class="vote-track"><div class="vote-fill" style="width:29%;background:#5DCAA5;"></div></div><div class="vote-num">2/7</div></div>
+          <div class="vote-row"><div class="vote-label">讲故事 / 读绘本</div><div class="vote-track"><div class="vote-fill" style="width:29%;background:#F0997B;"></div></div><div class="vote-num">2/7</div></div>
+          <div class="vote-row"><div class="vote-label">陪孩子学习·一步步教</div><div class="vote-track"><div class="vote-fill" style="width:14%;background:#B4B2A9;"></div></div><div class="vote-num">1/7</div></div>
+          <div class="vote-row"><div class="vote-label">电子宠物</div><div class="vote-track"><div class="vote-fill" style="width:14%;background:#B4B2A9;"></div></div><div class="vote-num">1/7</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-label">功能设计建议</div>
+        <div class="feat-grid">
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#E6F1FB;color:#185FA5;">核心 · 4/7</div>
+            <div class="feat-name">专注力监测 & 提醒</div>
+            <div class="feat-desc">"走神、不专心、躺平"是高频描述。坐姿/注意力引导在写作业场景有明确需求，应温和非对抗。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#E6F1FB;color:#185FA5;">核心 · 3/7</div>
+            <div class="feat-name">成长记录推送</div>
+            <div class="feat-desc">随孩子自主性增强，家长"看见孩子"的需求反而上升——情绪状态和学习状态的感知需求更强。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#E6F1FB;color:#185FA5;">中优 · 2/7</div>
+            <div class="feat-name">启发式问答</div>
+            <div class="feat-desc">跨年龄段持续需求。这个年龄孩子有更强独立使用能力，产品应支持孩子主动发起对话。</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-tag" style="background:#FAEEDA;color:#633806;">机会点</div>
+            <div class="feat-name">健康的设备使用管理</div>
+            <div class="feat-desc">"锁设备"是粗暴但真实的解法。产品可提供合理的使用时间管理机制，替代极端管控，降低亲子冲突。</div>
+          </div>
+        </div>
+        <div class="insight" style="background:#E6F1FB;">
+          <div class="insight-title" style="color:#185FA5;">⚡ 核心洞察：孩子开始有"主体性"，产品要同时取悦两个人</div>
+          <div class="insight-desc" style="color:#0C447C;">9-13岁是"家长管控"转向"孩子自主使用"的临界点。AI工具在孩子端的渗透证明了这个年龄段有独立使用工具的能力。产品设计需同时满足两端：让孩子愿意用（有趣、有成就感），让家长放心用（有监管、有成长记录）。习惯养成重回第一也值得注意——青春期前夕，电子设备和自律是绕不开的战场。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 横向对比 -->
+  <div class="section" id="compare">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">各年龄层横向对比</span>
+    </div>
+    <div class="overview-card">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th class="c" style="color:#534AB7;">0–3岁</th>
+            <th class="c" style="color:#0F6E56;">3–6岁</th>
+            <th class="c" style="color:#993C1D;">6–9岁</th>
+            <th class="c" style="color:#185FA5;">9–13岁</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>样本量</td><td class="c">5人</td><td class="c">5人</td><td class="c">5人</td><td class="c">7人</td></tr>
+          <tr><td>最心累领域</td><td class="c">身心健康</td><td class="c">习惯养成</td><td class="c">学习 ≈ 习惯</td><td class="c" style="font-weight:500;">习惯养成</td></tr>
+          <tr><td>学习压力</td><td class="c">🟡 几乎无</td><td class="c">🟡 萌芽中</td><td class="c">🔴 全票爆发</td><td class="c">🔴 立体化</td></tr>
+          <tr><td>AI工具渗透</td><td class="c">家长端 4/5</td><td class="c">极低</td><td class="c">孩子端初现 2/5</td><td class="c">孩子端 3/7</td></tr>
+          <tr><td>功能第一需求</td><td class="c">讲故事 = 成长记录</td><td class="c">十万个为什么</td><td class="c">十万个为什么</td><td class="c">提醒坐姿 > 成长记录</td></tr>
+          <tr><td>产品服务重心</td><td class="c">家长为主</td><td class="c">孩子为主</td><td class="c">孩子为主</td><td class="c">双向服务</td></tr>
+          <tr><td style="border-bottom:none;">核心价值词</td><td class="c" style="font-style:italic;border-bottom:none;">解放</td><td class="c" style="font-style:italic;border-bottom:none;">启蒙</td><td class="c" style="font-style:italic;border-bottom:none;">减负</td><td class="c" style="font-style:italic;border-bottom:none;">赋能</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight" style="background:var(--bg-muted);margin-top:16px;">
+      <div class="insight-title" style="color:var(--text);">📌 跨年龄段共性信号</div>
+      <div class="insight-desc" style="color:var(--text-2);">
+        <strong>「解答十万个为什么」</strong>在3–6岁（3/5）、6–9岁（4/5）均是第一需求，9–13岁也有2/7选择，是唯一在三个年龄段均高票的功能。好奇心驱动的对话能力是智能玩具的核心竞争力，应作为基础能力重点打磨。<br><br>
+        <strong>「成长记录推送」</strong>在0–3岁（4/5）和9–13岁（3/7）均进入前两位，但动机不同：前者是"解放家长"，后者是"看见孩子情绪"。同一功能需针对不同年龄段设计不同的内容维度和推送逻辑。<br><br>
+        <strong>「电子设备管控」</strong>从3岁就已出现，到12岁演化为"锁设备"的极端方式，是贯穿全年龄段、强度持续升级的隐性需求，目前无产品有效承接。
+      </div>
+    </div>
+  </div>
+
+  <div style="height:64px;"></div>
+
+  <!-- 07 个人深度分析 -->
+  <div class="section" id="individual">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">重点家长个人深度分析</span>
+    </div>
+
+    <!-- 赵伟 -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#F0997B,#E07A5F);">赵</div>
+        <div>
+          <div class="profile-name">赵伟</div>
+          <div class="profile-meta">多孩家庭 · 女9岁（安静内敛）+ 女6岁（安静内敛）· 横跨 6–9岁 & 3–6岁 两组 · 本人为主要照料者</div>
+        </div>
+      </div>
+      <div class="profile-body">
+        <div class="profile-section-title" style="--dot-color:#F0997B;">🔢 心累程度排序</div>
+        <div class="profile-ranking">
+          <div class="rank-chip" style="background:#FAECE7;color:#993C1D;">① 身心健康</div>
+          <div class="rank-chip" style="background:#E1F5EE;color:#0F6E56;">② 习惯养成</div>
+          <div class="rank-chip" style="background:#FAEEDA;color:#633806;">③ 素质发展</div>
+          <div class="rank-chip" style="background:var(--bg-muted);color:var(--text-3);">④ 学习相关</div>
+        </div>
+
+        <div class="profile-section-title">📌 具体棘手场景</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">学习</div>
+            <div class="profile-item-value">督促写作业/防止走神</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">习惯</div>
+            <div class="profile-item-value">规律作息、电子设备使用</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">素质</div>
+            <div class="profile-item-value">培养阅读兴趣</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">身心</div>
+            <div class="profile-item-value">（未选具体项）</div>
+          </div>
+        </div>
+
+        <div class="profile-section-title">🛠 应对方式 & 工具使用</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">每天花费时间</div>
+            <div class="profile-item-value">1小时以内</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">解决方式</div>
+            <div class="profile-item-value">AI工具（ChatGPT、豆包等）</div>
+          </div>
+        </div>
+        <div class="profile-quote-box">
+          <div class="profile-quote-item">「允许孩子自己用AI开拓写作思维」</div>
+        </div>
+
+        <div class="profile-section-title">⭐ 选出的最有用功能（限选3项）</div>
+        <div class="profile-func-tags">
+          <div class="func-tag" style="background:#FAECE7;color:#993C1D;">提醒坐姿 / 防走神</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:16px;">* 仅选了1项（原题限选3项），说明对现有功能列表的匹配度感知不高</div>
+
+        <div class="profile-insight" style="background:#FAECE7;">
+          <div class="insight-title" style="color:#993C1D;">💡 个人画像洞察</div>
+          <div class="insight-desc" style="color:#4A1B0C;">
+            <strong>典型的"开放型多孩爸爸"。</strong>身心健康排第一但学习排最末，在所有19位家长中是少见的"反焦虑"定位。他是唯一明确表示"允许孩子自己用AI"的家长——不是家长用AI辅助，而是让9岁的孩子直接使用AI开拓思维，显示出对技术工具的高接受度和教育理念的前瞻性。两个孩子都是"安静内敛"型，功能仅选1项（坐姿提醒），暗示他的核心需求可能不在现有功能列表中——更可能是"自主学习引导"和"阅读习惯培养"这类长期软性需求。<br><br>
+            <strong>产品启示：</strong>这类家长是"AI育儿先行者"，产品应重点服务其"让孩子自主使用"的场景，而非传统的"家长监控"模式。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 涂海龙 -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#85B7EB,#4A90D9);">涂</div>
+        <div>
+          <div class="profile-name">涂海龙</div>
+          <div class="profile-meta">多孩家庭 · 男6岁（安静内敛）+ 女11岁（安静内敛）· 横跨 3–6岁 & 9–13岁 两组 · 本人为主要照料者</div>
+        </div>
+      </div>
+      <div class="profile-body">
+        <div class="profile-section-title">🔢 心累程度排序</div>
+        <div class="profile-ranking">
+          <div class="rank-chip" style="background:#E1F5EE;color:#0F6E56;">① 习惯养成</div>
+          <div class="rank-chip" style="background:#FAECE7;color:#993C1D;">② 身心健康</div>
+          <div class="rank-chip" style="background:#FAEEDA;color:#633806;">③ 素质发展</div>
+          <div class="rank-chip" style="background:var(--bg-muted);color:var(--text-3);">④ 学习相关</div>
+        </div>
+
+        <div class="profile-section-title">📌 具体棘手场景</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">学习</div>
+            <div class="profile-item-value">督促写作业/防止走神</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">习惯</div>
+            <div class="profile-item-value">规律作息</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">素质</div>
+            <div class="profile-item-value">培养阅读兴趣</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">身心</div>
+            <div class="profile-item-value">挑食/不爱吃饭</div>
+          </div>
+        </div>
+
+        <div class="profile-section-title">🛠 应对方式 & 工具使用</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">每天花费时间</div>
+            <div class="profile-item-value">1小时以内</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">解决方式</div>
+            <div class="profile-item-value">纯人力解决</div>
+          </div>
+        </div>
+        <div class="profile-quote-box">
+          <div class="profile-quote-item">「没合适的」（被问到为何不用工具时的回答）</div>
+        </div>
+
+        <div class="profile-section-title">⭐ 选出的最有用功能（限选3项）</div>
+        <div class="profile-func-tags">
+          <div class="func-tag" style="background:#E6F1FB;color:#185FA5;">成长记录推送给家长</div>
+          <div class="func-tag" style="background:#E1F5EE;color:#0F6E56;">解答十万个为什么</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:16px;">* 仅选了2项（原题限选3项），功能匹配度中等</div>
+
+        <div class="profile-insight" style="background:#E6F1FB;">
+          <div class="insight-title" style="color:#185FA5;">💡 个人画像洞察</div>
+          <div class="insight-desc" style="color:#0C447C;">
+            <strong>典型的"独力支撑型爸爸"。</strong>两个孩子年龄跨度大（6岁+11岁），自己承担主要照料，且明确表示纯人力解决——不是不想用工具，而是"没合适的"。这是一个工具空白感极强的用户：有明确需求（作息、写作业、阅读、饮食）、有时间投入（每天1小时以内说明效率要求高），但现有市场没有产品能满足他。<br><br>
+            两个孩子都是"安静内敛"型，学习排在最末位但依然选了"督促写作业"，说明痛点在于<strong>习惯和日常管理</strong>而非学科辅导。功能选择"成长记录+十万个为什么"精准对应了他的双重需求：6岁孩子需要好奇心激发，11岁孩子需要成长状态感知。<br><br>
+            <strong>产品启示：</strong>这是最典型的目标用户——有需求、有意愿、有时间，但市场无产品承接。"没合适的"三个字是最有力的市场空白信号。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 赵书影 -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#AFA9EC,#7B73D1);">赵</div>
+        <div>
+          <div class="profile-name">赵书影</div>
+          <div class="profile-meta">单孩 · 男8岁（活泼好动）· 属6–9岁组 · 配偶为主要照料者</div>
+        </div>
+      </div>
+      <div class="profile-body">
+        <div class="profile-section-title">🔢 心累程度排序</div>
+        <div class="profile-ranking">
+          <div class="rank-chip" style="background:#FAECE7;color:#993C1D;">① 身心健康</div>
+          <div class="rank-chip" style="background:#E1F5EE;color:#0F6E56;">② 习惯养成</div>
+          <div class="rank-chip" style="background:#EEEDFE;color:#534AB7;">③ 学习相关</div>
+          <div class="rank-chip" style="background:var(--bg-muted);color:var(--text-3);">④ 素质发展</div>
+        </div>
+
+        <div class="profile-section-title">📌 具体棘手场景</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">学习</div>
+            <div class="profile-item-value">督促写作业/防止走神</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">习惯</div>
+            <div class="profile-item-value">做家务、规律作息</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">素质</div>
+            <div class="profile-item-value">培养阅读兴趣</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">身心</div>
+            <div class="profile-item-value">挑食/不爱吃饭</div>
+          </div>
+        </div>
+
+        <div class="profile-section-title">🛠 应对方式 & 工具使用</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">每天花费时间</div>
+            <div class="profile-item-value">1小时以内</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">解决方式</div>
+            <div class="profile-item-value">纯人力解决</div>
+          </div>
+        </div>
+        <div class="profile-quote-box">
+          <div class="profile-quote-item">「哈哈哈，大多数情况反应后置，因为情绪习惯的问题，很多时候突发」</div>
+        </div>
+
+        <div class="profile-section-title">⭐ 选出的最有用功能（限选3项）</div>
+        <div class="profile-func-tags">
+          <div class="func-tag" style="background:#EEEDFE;color:#534AB7;">陪孩子学习·一步步教</div>
+          <div class="func-tag" style="background:#E6F1FB;color:#185FA5;">成长记录推送给家长</div>
+          <div class="func-tag" style="background:#E1F5EE;color:#0F6E56;">解答十万个为什么</div>
+        </div>
+
+        <div class="profile-insight" style="background:#EEEDFE;">
+          <div class="insight-title" style="color:#534AB7;">💡 个人画像洞察</div>
+          <div class="insight-desc" style="color:#3C3489;">
+            <strong>典型的"被动应对型家长"。</strong>最值得关注的是那句"反应后置"——他清晰地意识到自己的育儿方式是"出了问题再处理"而非预防性介入，且笑着说出来（"哈哈哈"开头），说明已经接受这种状态但内心无奈。身心健康排第一（挑食）而非学习，加上孩子"活泼好动"的性格，说明日常消耗更多在生活管理而非学科辅导。<br><br>
+            纯人力解决但功能选了"陪学习+成长记录+十万个为什么"三项全满，显示他<strong>不是不需要工具，而是没找到合适的切入时机</strong>。"反应后置"恰好是产品切入的最佳契机——如果产品能提前预判孩子的情绪/行为模式并预警，就是对"后置"问题的直接解法。<br><br>
+            <strong>产品启示：</strong>"情绪/行为预测+提前干预提醒"功能对这类家长价值极高。成长记录不只是回顾，更应是前瞻性的预警工具。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- allenyu -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#5DCAA5,#3BA683);">A</div>
+        <div>
+          <div class="profile-name">allenyu</div>
+          <div class="profile-meta">单孩 · 女9岁（活泼好动）· 属6–9岁组 · 配偶为主要照料者</div>
+        </div>
+      </div>
+      <div class="profile-body">
+        <div class="profile-section-title">🔢 心累程度排序</div>
+        <div class="profile-ranking">
+          <div class="rank-chip" style="background:#FAECE7;color:#993C1D;">① 学习相关</div>
+          <div class="rank-chip" style="background:#E1F5EE;color:#0F6E56;">② 习惯养成</div>
+          <div class="rank-chip" style="background:#FAEEDA;color:#633806;">③ 素质发展</div>
+          <div class="rank-chip" style="background:var(--bg-muted);color:var(--text-3);">④ 身心健康</div>
+        </div>
+
+        <div class="profile-section-title">📌 具体棘手场景</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">学习</div>
+            <div class="profile-item-value">督促写作业/防止走神、讲题/辅导作业</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">习惯</div>
+            <div class="profile-item-value">做家务</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">素质</div>
+            <div class="profile-item-value">创造力培养</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">身心</div>
+            <div class="profile-item-value">吃太多</div>
+          </div>
+        </div>
+
+        <div class="profile-section-title">🛠 应对方式 & 工具使用</div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-item-label">每天花费时间</div>
+            <div class="profile-item-value">1小时以内</div>
+          </div>
+          <div class="profile-item">
+            <div class="profile-item-label">解决方式</div>
+            <div class="profile-item-value">AI工具（ChatGPT、豆包等）</div>
+          </div>
+        </div>
+        <div class="profile-quote-box">
+          <div class="profile-quote-item">「豆包检查作业」</div>
+        </div>
+
+        <div class="profile-section-title">⭐ 选出的最有用功能（限选3项）</div>
+        <div class="profile-func-tags">
+          <div class="func-tag" style="background:#EEEDFE;color:#534AB7;">讲故事/读绘本</div>
+          <div class="func-tag" style="background:#E1F5EE;color:#0F6E56;">陪孩子学习·一步步教</div>
+          <div class="func-tag" style="background:#FAEEDA;color:#633806;">解答十万个为什么</div>
+        </div>
+
+        <div class="profile-insight" style="background:#E1F5EE;">
+          <div class="insight-title" style="color:#0F6E56;">💡 个人画像洞察</div>
+          <div class="insight-desc" style="color:#085041;">
+            <strong>典型的"务实工具型家长"。</strong>学习排第一、同时选了"督促写作业"和"讲题辅导"双痛点，是6-9岁组中学业焦虑最显性的家长。但他的应对方式非常务实——已经在用"豆包检查作业"，说明<strong>已经跨过了AI工具使用的心理门槛</strong>，是现有AI产品的真实用户。<br><br>
+            有趣的是，身心健康问题是"吃太多"而非"挑食"——这在整个样本中独一无二，说明孩子的身体状况良好，焦虑真正集中在学业上。功能选择"讲故事+陪学习+十万个为什么"三项，覆盖了从娱乐到学习到好奇心的全谱系，显示他期望一个<strong>全能型陪伴工具</strong>，而非单一功能的学习机。<br><br>
+            创造力培养是他在素质发展上的唯一选择，这与他"允许使用AI工具"的开放态度一致——他认为创造力比应试更重要，但缺乏培养路径。<br><br>
+            <strong>产品启示：</strong>这是AI学习工具的"已转化用户"，产品应从"检查作业"单一功能扩展到"陪伴学习+启发创造"的全链路体验，才能从豆包手中赢得更多使用场景。
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <div class="container">
+    基于2026年4月家长调研问卷 · 样本量19份 · 数据更新于2026年4月9日<br>
+    深圳地区家长样本，结论推广需扩大样本量验证
+  </div>
+</div>
+
+<script>
+  const sections = ['overview','age-0-3','age-3-6','age-6-9','age-9-12','compare','individual'];
+  const links = document.querySelectorAll('.navbar-link');
+  const NAV_H = 48;
+  function updateActive() {
+    let current = sections[0];
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= NAV_H + 40) current = id;
+    }
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.getElementById(a.getAttribute('href').slice(1));
+      if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - NAV_H - 12, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
