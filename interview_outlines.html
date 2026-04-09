@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家长访谈大纲 · 赵伟 / 涂海龙 / 赵书影 / allenyu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0; --bg-card: #FFFFFF; --bg-muted: #F0EDE6;
+    --text: #1A1814; --text-2: #5C5750; --text-3: #9B9489;
+    --border: rgba(30,24,16,0.1); --border-2: rgba(30,24,16,0.18);
+    --serif: 'Noto Serif SC', serif; --sans: 'Noto Sans SC', sans-serif;
+    --radius: 12px; --radius-sm: 8px;
+    --coral: #F0997B; --coral-l: #FAECE7; --coral-d: #993C1D;
+    --blue: #85B7EB; --blue-l: #E6F1FB; --blue-d: #185FA5;
+    --purple: #AFA9EC; --purple-l: #EEEDFE; --purple-d: #534AB7;
+    --teal: #5DCAA5; --teal-l: #E1F5EE; --teal-d: #0F6E56;
+    --amber-l: #FAEEDA; --amber-d: #633806;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .navbar { position: sticky; top: 0; z-index: 100; background: rgba(26,24,20,0.96); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+  .navbar-inner { max-width: 780px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; height: 48px; }
+  .navbar-logo { font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; margin-right: 28px; flex-shrink: 0; }
+  .navbar-links { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+  .navbar-links::-webkit-scrollbar { display: none; }
+  .navbar-link { font-size: 12px; color: rgba(255,255,255,0.45); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: color 0.15s, background 0.15s; }
+  .navbar-link:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.07); }
+  .navbar-link.active { color: #fff; background: rgba(255,255,255,0.1); }
+
+  .header { background: var(--text); color: #fff; padding: 48px 0 40px; text-align: center; }
+  .header-tag { display: inline-block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 14px; font-weight: 300; }
+  .header h1 { font-family: var(--serif); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 10px; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 300; }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+
+  /* INTERVIEW CARD */
+  .interview { margin-top: 40px; margin-bottom: 0; }
+  .interview-header { display: flex; align-items: center; gap: 16px; padding: 24px 28px; border-bottom: 0.5px solid var(--border); background: var(--bg-card); border-radius: var(--radius) var(--radius) 0 0; border: 0.5px solid var(--border); border-bottom: none; }
+  .interview-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .interview-name { font-family: var(--serif); font-size: 20px; font-weight: 700; }
+  .interview-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+  .interview-body { background: var(--bg-card); border: 0.5px solid var(--border); border-top: none; border-radius: 0 0 var(--radius) var(--radius); padding: 0; }
+
+  /* PHASE */
+  .phase { border-bottom: 0.5px solid var(--border); }
+  .phase:last-child { border-bottom: none; }
+  .phase-header { display: flex; align-items: center; gap: 10px; padding: 16px 28px 0; }
+  .phase-num { font-family: var(--serif); font-size: 11px; color: var(--text-3); }
+  .phase-title { font-size: 14px; font-weight: 600; }
+  .phase-time { font-size: 11px; color: var(--text-3); margin-left: auto; }
+  .phase-purpose { font-size: 12px; color: var(--text-3); padding: 4px 28px 0; font-style: italic; }
+  .phase-body { padding: 12px 28px 20px; }
+
+  /* QUESTION */
+  .q-list { display: flex; flex-direction: column; gap: 10px; }
+  .q-item { display: flex; gap: 10px; }
+  .q-marker { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+  .q-body { flex: 1; }
+  .q-main { font-size: 13px; font-weight: 500; line-height: 1.6; }
+  .q-follow { font-size: 12px; color: var(--text-2); margin-top: 3px; line-height: 1.6; }
+  .q-follow::before { content: '↳ '; color: var(--text-3); }
+  .q-note { font-size: 11px; color: var(--text-3); margin-top: 3px; background: var(--bg-muted); border-radius: 4px; padding: 3px 8px; display: inline-block; }
+
+  /* CONTEXT BOX */
+  .ctx-box { background: var(--bg-muted); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px; }
+  .ctx-title { font-size: 11px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .ctx-content { font-size: 12px; color: var(--text-2); line-height: 1.7; }
+  .ctx-quote { font-style: italic; border-left: 2px solid var(--border-2); padding-left: 10px; margin-top: 6px; }
+
+  /* TIPS */
+  .tips-box { margin: 0 28px 20px; border-radius: var(--radius-sm); padding: 12px 14px; }
+  .tips-title { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+  .tips-content { font-size: 12px; line-height: 1.7; }
+
+  /* DEMO SHOWCASE */
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  .demo-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 0; overflow: hidden; transition: box-shadow 0.2s, transform 0.15s; }
+  .demo-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .demo-card-top { padding: 20px 20px 16px; }
+  .demo-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px; }
+  .demo-name { font-family: var(--serif); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .demo-desc { font-size: 12px; color: var(--text-2); line-height: 1.6; }
+  .demo-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .demo-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+  .demo-card-bottom { padding: 12px 20px; border-top: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-muted); }
+  .demo-link { font-size: 12px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 6px; transition: background 0.15s; }
+  .demo-link:hover { filter: brightness(0.95); }
+  .demo-status { font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+  .demo-status-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .demo-card.full-width { grid-column: 1 / -1; }
+  @media (max-width: 600px) { .demo-grid { grid-template-columns: 1fr; } }
+
+  .footer { text-align: center; padding: 48px 0 56px; color: var(--text-3); font-size: 12px; line-height: 1.8; }
+
+  @media print {
+    .navbar { display: none; }
+    .interview { page-break-before: always; }
+    .interview:first-of-type { page-break-before: avoid; }
+    body { background: #fff; }
+  }
+  @media (max-width: 600px) {
+    .header h1 { font-size: 22px; }
+    .interview-header, .phase-header, .phase-body, .phase-purpose { padding-left: 18px; padding-right: 18px; }
+    .tips-box { margin-left: 18px; margin-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="navbar-logo">访谈大纲</div>
+    <div class="navbar-links">
+      <a class="navbar-link" href="#zhaowei">赵伟</a>
+      <a class="navbar-link" href="#tuhailong">涂海龙</a>
+      <a class="navbar-link" href="#zhaoshuying">赵书影</a>
+      <a class="navbar-link" href="#allenyu">allenyu</a>
+      <a class="navbar-link" href="#demos">展示方案</a>
+    </div>
+  </div>
+</nav>
+
+<div class="header">
+  <div class="container">
+    <div class="header-tag">家庭AI育娃 · 深度访谈</div>
+    <h1>家长1v1访谈大纲</h1>
+    <div class="header-sub">单次时长约30分钟 · 基于问卷数据定制 · 2026年4月</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== 赵伟 ==================== -->
+<div class="interview" id="zhaowei">
+  <div class="interview-header">
+    <div class="interview-avatar" style="background:linear-gradient(135deg,#F0997B,#E07A5F);">赵</div>
+    <div>
+      <div class="interview-name">赵伟 · 访谈大纲</div>
+      <div class="interview-meta">多孩 · 女9岁（安静内敛）+ 女6岁（安静内敛）· 本人为主照料者 · 已使用AI工具</div>
+    </div>
+  </div>
+  <div class="interview-body">
+
+    <div class="tips-box" style="background:var(--coral-l);margin-top:20px;">
+      <div class="tips-title" style="color:var(--coral-d);">🎯 本次访谈核心目标</div>
+      <div class="tips-content" style="color:#4A1B0C;">
+        ① 深挖"让孩子自己用AI"的真实场景和边界感<br>
+        ② 理解为什么功能仅选1项——是需求不匹配还是期望更高维度的产品<br>
+        ③ 捕捉多孩家庭中两个年龄段孩子的差异化需求
+      </div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">暖场 & 日常还原</div>
+        <div class="phase-time">≈ 5 min</div>
+      </div>
+      <div class="phase-purpose">目的：建立信任，还原两个孩子的真实日常差异</div>
+      <div class="phase-body">
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">1</div>
+            <div class="q-body">
+              <div class="q-main">赵伟你好！你家两个女儿一个9岁一个6岁，能先聊聊她们平时放学到睡觉这段时间，一般是怎么安排的？</div>
+              <div class="q-follow">两个孩子的时间安排有什么不一样吗？你一般怎么分配精力？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">2</div>
+            <div class="q-body">
+              <div class="q-main">问卷里你提到两个孩子都是"安静内敛"型，在你看来，姐姐和妹妹的"安静"是一样的吗？</div>
+              <div class="q-follow">比如面对新事物、新朋友，她们的反应有什么不同？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">痛点深挖：身心健康 vs 学习</div>
+        <div class="phase-time">≈ 8 min</div>
+      </div>
+      <div class="phase-purpose">目的：理解她把"身心健康"排第一、"学习"排最末的深层逻辑</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">心累排序：① 身心健康 ② 习惯养成 ③ 素质发展 ④ 学习相关<br>学习痛点：督促写作业/防止走神 · 习惯痛点：规律作息、电子设备 · 素质：培养阅读兴趣</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">3</div>
+            <div class="q-body">
+              <div class="q-main">你把身心健康排在最心累的第一位，学习排在最后——在我们的样本里这很少见。能说说是什么让你觉得身心健康比学习更让你操心？</div>
+              <div class="q-follow">是具体发生过什么事情，还是一直以来的教育理念？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">4</div>
+            <div class="q-body">
+              <div class="q-main">9岁的姐姐已经三年级了，写作业这件事你选了"督促写作业/防止走神"，但学习整体排最末。能帮我理解一下——是写作业这件事不太耗你精力，还是你觉得学习没那么重要？</div>
+              <div class="q-follow">督促写作业的时候，一般是什么样的场景？姐姐会走神吗？你怎么处理？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">5</div>
+            <div class="q-body">
+              <div class="q-main">电子设备使用你也选了。两个孩子用电子设备的情况一样吗？你一般怎么管？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">AI使用深挖：孩子自主用AI</div>
+        <div class="phase-time">≈ 10 min</div>
+      </div>
+      <div class="phase-purpose">目的：这是本次访谈最核心的模块——深挖"允许孩子自己用AI"的完整故事</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷原声</div>
+          <div class="ctx-content ctx-quote">「允许孩子自己用AI开拓写作思维」</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">6</div>
+            <div class="q-body">
+              <div class="q-main">你在问卷里提到"允许孩子自己用AI开拓写作思维"，这个特别引起我们关注。能详细说说——是哪个孩子在用？用的是什么工具？</div>
+              <div class="q-follow">是你主动教她用的，还是她自己发现的？第一次是怎么开始的？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">7</div>
+            <div class="q-body">
+              <div class="q-main">"开拓写作思维"具体是怎么用的？能举一个最近的例子吗？比如她写作文的时候，是怎么和AI互动的？</div>
+              <div class="q-follow">她会直接让AI帮她写吗？还是用来找灵感？你觉得效果怎么样？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">8</div>
+            <div class="q-body">
+              <div class="q-main">让9岁的孩子自己用AI，你有没有什么担心的地方？有没有设过什么规矩或边界？</div>
+              <div class="q-follow">比如使用时间、使用场景、哪些事情不能问AI？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">9</div>
+            <div class="q-body">
+              <div class="q-main">6岁的妹妹有没有接触过AI工具？如果未来有一个适合她年龄的AI玩具，你觉得会让她用吗？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-title">产品探索 & 收尾</div>
+        <div class="phase-time">≈ 7 min</div>
+      </div>
+      <div class="phase-purpose">目的：理解功能仅选1项的原因，捕捉未被问卷覆盖的隐藏需求</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">功能仅选1项：提醒坐姿/防走神（原题限选3项）</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">10</div>
+            <div class="q-body">
+              <div class="q-main">问卷最后让你选"最有用的3个功能"，你只选了1个——"提醒坐姿/防走神"。是其他功能你觉得不需要，还是觉得列出来的都不够好？</div>
+              <div class="q-follow">如果让你自己描述一个"你最想要的AI玩具功能"，你会说什么？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">11</div>
+            <div class="q-body">
+              <div class="q-main">你选了"培养阅读兴趣"作为素质发展的痛点。如果有个AI玩具能陪孩子读书、讨论书里的内容，你觉得对你家两个孩子分别有用吗？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--coral-l);color:var(--coral-d);">12</div>
+            <div class="q-body">
+              <div class="q-main">最后一个问题：如果这个AI玩具明天就出现在你面前，你最希望它先帮你解决哪一件事？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== 涂海龙 ==================== -->
+<div class="interview" id="tuhailong">
+  <div class="interview-header">
+    <div class="interview-avatar" style="background:linear-gradient(135deg,#85B7EB,#4A90D9);">涂</div>
+    <div>
+      <div class="interview-name">涂海龙 · 访谈大纲</div>
+      <div class="interview-meta">多孩 · 男6岁（安静内敛）+ 女11岁（安静内敛）· 本人为主照料者 · 纯人力解决</div>
+    </div>
+  </div>
+  <div class="interview-body">
+
+    <div class="tips-box" style="background:var(--blue-l);margin-top:20px;">
+      <div class="tips-title" style="color:var(--blue-d);">🎯 本次访谈核心目标</div>
+      <div class="tips-content" style="color:#0C447C;">
+        ① 深挖"没合适的"背后的真实诉求——他到底试过什么、期望什么<br>
+        ② 理解爸爸作为主要照料者的独特视角和困难<br>
+        ③ 两个孩子年龄跨度大（6岁 vs 11岁），如何用一个产品同时满足
+      </div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">暖场 & 日常还原</div>
+        <div class="phase-time">≈ 5 min</div>
+      </div>
+      <div class="phase-purpose">目的：了解爸爸独力照料两个孩子的日常节奏</div>
+      <div class="phase-body">
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">1</div>
+            <div class="q-body">
+              <div class="q-main">涂海龙你好！你家一个6岁儿子一个11岁女儿，年龄差蛮大的。你是主要照料者，能先聊聊你平时一天的节奏是怎样的？</div>
+              <div class="q-follow">比如放学后到晚上睡觉，你一般怎么安排两个孩子？有没有觉得分身乏术的时候？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">2</div>
+            <div class="q-body">
+              <div class="q-main">作为爸爸来主导孩子的日常，你觉得跟妈妈管孩子有什么不一样的地方吗？有什么你觉得特别擅长或者特别头疼的？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">痛点深挖：习惯与饮食</div>
+        <div class="phase-time">≈ 8 min</div>
+      </div>
+      <div class="phase-purpose">目的：还原"习惯养成第一、学习排最末"的日常消耗场景</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">心累排序：① 习惯养成 ② 身心健康 ③ 素质发展 ④ 学习相关<br>学习：督促写作业 · 习惯：规律作息 · 素质：培养阅读兴趣 · 身心：挑食/不爱吃饭</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">3</div>
+            <div class="q-body">
+              <div class="q-main">你把习惯养成排在第一位。"规律作息"是两个孩子都有问题，还是主要是某一个？能描述一下最典型的场景吗？</div>
+              <div class="q-follow">比如晚上几点该睡觉？实际几点才睡？中间一般会发生什么？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">4</div>
+            <div class="q-body">
+              <div class="q-main">挑食/不爱吃饭你也选了。这是6岁的弟弟还是11岁的姐姐，还是都有？平时吃饭最头疼的是什么？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">5</div>
+            <div class="q-body">
+              <div class="q-main">11岁的姐姐已经五年级了，你选了"督促写作业"但学习整体排最后。姐姐写作业这件事你每天大概花多少时间管？觉得难度大吗？</div>
+              <div class="q-follow">姐姐学习上有没有需要你讲题或辅导的时候？你一般怎么应对？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">工具空白深挖："没合适的"</div>
+        <div class="phase-time">≈ 10 min</div>
+      </div>
+      <div class="phase-purpose">目的：这是本次最核心的模块——深挖纯人力背后的原因和未被满足的期望</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷原声</div>
+          <div class="ctx-content ctx-quote">「没合适的」（被问到为何不用工具时的回答）</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">6</div>
+            <div class="q-body">
+              <div class="q-main">你在问卷里说选择人力解决的原因是"没合适的"。能详细说说——你有尝试找过什么工具吗？看过什么App？</div>
+              <div class="q-follow">是没找到、试过不好用、还是觉得这种事就不该靠工具？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">7</div>
+            <div class="q-body">
+              <div class="q-main">如果有一个"合适的"工具，你觉得它应该是什么样的？它应该帮你做什么？你能描述一下理想中的样子吗？</div>
+              <div class="q-follow">它是帮你管孩子的作息？帮姐姐辅导作业？帮弟弟培养阅读兴趣？还是别的什么？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">8</div>
+            <div class="q-body">
+              <div class="q-main">你有没有用过AI工具——比如ChatGPT、豆包这些？不管是给自己用还是给孩子用？</div>
+              <div class="q-follow">如果用过，觉得怎么样？如果没用过，是什么原因？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">9</div>
+            <div class="q-body">
+              <div class="q-main">两个孩子年龄差5岁。如果有一个AI玩具，你会希望它对6岁的弟弟和11岁的姐姐分别做不同的事吗？还是你觉得应该是两个不同的产品？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-title">产品探索 & 收尾</div>
+        <div class="phase-time">≈ 7 min</div>
+      </div>
+      <div class="phase-purpose">目的：验证功能选择逻辑，捕捉愿付价格和使用场景</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">功能选了2项：成长记录推送给家长 + 解答十万个为什么</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">10</div>
+            <div class="q-body">
+              <div class="q-main">你选了"成长记录推送"和"十万个为什么"。能说说为什么选这两个？分别是给弟弟用还是姐姐用？</div>
+              <div class="q-follow">"成长记录推送"你期望看到什么内容？情绪？学习？还是别的？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">11</div>
+            <div class="q-body">
+              <div class="q-main">你选了"培养阅读兴趣"作为素质发展的痛点。两个孩子目前的阅读情况怎样？你试过什么方法培养？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--blue-l);color:var(--blue-d);">12</div>
+            <div class="q-body">
+              <div class="q-main">最后一个问题：如果这个AI玩具明天就出现在你面前，你最希望它帮你解决的一件事是什么？你愿意为它付多少钱？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== 赵书影 ==================== -->
+<div class="interview" id="zhaoshuying">
+  <div class="interview-header">
+    <div class="interview-avatar" style="background:linear-gradient(135deg,#AFA9EC,#7B73D1);">赵</div>
+    <div>
+      <div class="interview-name">赵书影 · 访谈大纲</div>
+      <div class="interview-meta">单孩 · 男8岁（活泼好动）· 配偶为主照料者 · 纯人力解决</div>
+    </div>
+  </div>
+  <div class="interview-body">
+
+    <div class="tips-box" style="background:var(--purple-l);margin-top:20px;">
+      <div class="tips-title" style="color:var(--purple-d);">🎯 本次访谈核心目标</div>
+      <div class="tips-content" style="color:#3C3489;">
+        ① 深挖"反应后置"的真实含义——什么样的事会突发、他怎么应对<br>
+        ② 理解"身心健康第一"在男孩活泼好动场景下的具体表现<br>
+        ③ 探索"预判式工具"对他的吸引力——从后置到前置的可能性
+      </div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">暖场 & 日常还原</div>
+        <div class="phase-time">≈ 5 min</div>
+      </div>
+      <div class="phase-purpose">目的：还原8岁活泼男孩的真实日常</div>
+      <div class="phase-body">
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">1</div>
+            <div class="q-body">
+              <div class="q-main">赵书影你好！你家儿子8岁，你形容他"活泼好动"。能先聊聊他平时是什么样的？放学后一般在做什么？</div>
+              <div class="q-follow">他的精力属于哪种——是一直在动停不下来，还是玩起来很投入但也能安静？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">2</div>
+            <div class="q-body">
+              <div class="q-main">你说主要是配偶在负责孩子日常，那你在育儿里通常扮演什么角色？一般什么时候你会介入？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">痛点深挖："反应后置"与突发情绪</div>
+        <div class="phase-time">≈ 10 min</div>
+      </div>
+      <div class="phase-purpose">目的：这是本次最核心的模块——深挖"后置应对"的完整故事</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷原声</div>
+          <div class="ctx-content ctx-quote">「哈哈哈，大多数情况反应后置，因为情绪习惯的问题，很多时候突发」</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">3</div>
+            <div class="q-body">
+              <div class="q-main">你在问卷里说"大多数情况反应后置，情绪习惯的问题很多时候突发"——能举一个最近发生的具体例子吗？当时是什么情况？</div>
+              <div class="q-follow">是孩子突然闹情绪？还是做了什么让你措手不及的事？你当时怎么处理的？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">4</div>
+            <div class="q-body">
+              <div class="q-main">"反应后置"——你觉得如果能提前知道孩子今天状态不好，或者马上要闹脾气，对你来说有用吗？</div>
+              <div class="q-follow">比如有个工具能根据孩子的行为模式提前提醒你"他可能快坐不住了"，你觉得你会看吗？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">5</div>
+            <div class="q-body">
+              <div class="q-main">你把身心健康排第一，具体选了"挑食/不爱吃饭"。吃饭这件事每天大概要花多少时间？最让你崩溃的时刻是什么？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">6</div>
+            <div class="q-body">
+              <div class="q-main">习惯养成你选了"做家务"和"规律作息"。8岁的男孩让他做家务，一般是什么样的场景？他会抗拒吗？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">学习场景 & 工具态度</div>
+        <div class="phase-time">≈ 8 min</div>
+      </div>
+      <div class="phase-purpose">目的：了解学习辅导的具体困难，以及纯人力解决的深层原因</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">学习痛点：督促写作业 · 素质：培养阅读兴趣 · 解决方式：纯人力 · 每天1小时以内</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">7</div>
+            <div class="q-body">
+              <div class="q-main">写作业的时候，你儿子一般是什么状态？能坐住多久？走神的时候你们怎么处理？</div>
+              <div class="q-follow">有没有需要给他讲题的时候？你讲得来吗？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">8</div>
+            <div class="q-body">
+              <div class="q-main">你选了纯人力解决，原因是"情绪习惯的问题"。你有没有想过用什么工具帮忙？比如作业帮、AI工具这些？</div>
+              <div class="q-follow">如果没用过，是觉得不需要，还是没想到，还是试过觉得不好用？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">9</div>
+            <div class="q-body">
+              <div class="q-main">你选了"培养阅读兴趣"。孩子目前的阅读情况怎样？他喜欢看什么？你试过什么方法引导他？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-title">产品探索 & 收尾</div>
+        <div class="phase-time">≈ 7 min</div>
+      </div>
+      <div class="phase-purpose">目的：验证功能需求，测试"预判式产品"的接受度</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">功能选了3项：陪孩子学习·一步步教 + 成长记录推送 + 解答十万个为什么</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">10</div>
+            <div class="q-body">
+              <div class="q-main">你选了"陪学习""成长记录""十万个为什么"三个功能。能排个序吗，哪个你觉得最急需？</div>
+              <div class="q-follow">"成长记录推送"你期望看到什么？是学习进度、情绪变化、还是行为习惯？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">11</div>
+            <div class="q-body">
+              <div class="q-main">你说孩子很多时候是"突发"的情绪问题。如果AI玩具能在他情绪快要爆发前，用一种温和的方式转移他注意力——比如讲个笑话、出个谜语——你觉得这样的功能你会信任吗？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--purple-l);color:var(--purple-d);">12</div>
+            <div class="q-body">
+              <div class="q-main">最后一个问题：如果这个AI玩具能帮你从"反应后置"变成"提前预判"，你最希望它预判什么？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== allenyu ==================== -->
+<div class="interview" id="allenyu">
+  <div class="interview-header">
+    <div class="interview-avatar" style="background:linear-gradient(135deg,#5DCAA5,#3BA683);">A</div>
+    <div>
+      <div class="interview-name">allenyu · 访谈大纲</div>
+      <div class="interview-meta">单孩 · 女9岁（活泼好动）· 配偶为主照料者 · 已使用AI工具（豆包）</div>
+    </div>
+  </div>
+  <div class="interview-body">
+
+    <div class="tips-box" style="background:var(--teal-l);margin-top:20px;">
+      <div class="tips-title" style="color:var(--teal-d);">🎯 本次访谈核心目标</div>
+      <div class="tips-content" style="color:#085041;">
+        ① 深挖"豆包检查作业"的完整使用场景和满意度<br>
+        ② 理解从"检查作业"到"全能陪伴"的需求跳跃——他还缺什么<br>
+        ③ 捕捉"创造力培养"焦虑的来源和期望路径
+      </div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">暖场 & 日常还原</div>
+        <div class="phase-time">≈ 5 min</div>
+      </div>
+      <div class="phase-purpose">目的：还原9岁活泼女孩的日常学习和生活节奏</div>
+      <div class="phase-body">
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">1</div>
+            <div class="q-body">
+              <div class="q-main">Allen你好！你家女儿9岁，三年级对吧？能先聊聊她放学后的日常——一般几点到家、先做什么、作业大概做多久？</div>
+              <div class="q-follow">她做作业的时候需要人盯着吗？还是能自己做完？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">2</div>
+            <div class="q-body">
+              <div class="q-main">你形容她"活泼好动"。活泼在什么地方？在学习上会不会坐不住？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">痛点深挖：学习焦虑与讲题困境</div>
+        <div class="phase-time">≈ 8 min</div>
+      </div>
+      <div class="phase-purpose">目的：还原"督促写作业+讲题辅导"双痛点的真实日常</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">心累排序：① 学习相关 ② 习惯养成 ③ 素质发展 ④ 身心健康<br>学习痛点：督促写作业/防止走神 + 讲题/辅导作业 · 习惯：做家务 · 素质：创造力培养 · 身心：吃太多</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">3</div>
+            <div class="q-body">
+              <div class="q-main">你同时选了"督促写作业"和"讲题辅导"两个学习痛点，这在我们的样本里不多见。能说说——督促和讲题哪个更让你头疼？</div>
+              <div class="q-follow">是不愿意开始写？写到一半走神？还是做完一检查发现错很多？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">4</div>
+            <div class="q-body">
+              <div class="q-main">讲题这件事——你觉得目前哪些科目你讲得来，哪些已经开始吃力了？女儿一般能听懂你讲的吗？</div>
+              <div class="q-follow">有没有出现过你讲了她还是不懂、然后双方都很烦躁的时候？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">5</div>
+            <div class="q-body">
+              <div class="q-main">身心健康你写的是"吃太多"——这在我们所有家长里独一无二（笑）。这是你真的觉得是个问题，还是调侃？</div>
+              <div class="q-note">轻松话题，调节节奏</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">AI工具使用深挖：豆包经验</div>
+        <div class="phase-time">≈ 10 min</div>
+      </div>
+      <div class="phase-purpose">目的：这是本次最核心的模块——从现有AI工具使用经验中提取产品需求</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷原声</div>
+          <div class="ctx-content ctx-quote">「豆包检查作业」</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">6</div>
+            <div class="q-body">
+              <div class="q-main">你说用豆包检查作业。能详细说说——是你在用还是女儿在用？一般怎么个流程？拍照上传然后看结果？</div>
+              <div class="q-follow">大概是什么时候开始用的？是别人推荐还是自己找的？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">7</div>
+            <div class="q-body">
+              <div class="q-main">用豆包检查作业，你觉得效果怎么样？它判断对错准吗？有没有让你觉得不满意的地方？</div>
+              <div class="q-follow">有没有你觉得它做不到但你特别希望它能做的？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">8</div>
+            <div class="q-body">
+              <div class="q-main">除了检查作业，你有没有用过AI工具做别的事？比如给孩子讲题、讲故事、查资料？</div>
+              <div class="q-follow">你女儿自己会用AI吗？你会让她用吗？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">9</div>
+            <div class="q-body">
+              <div class="q-main">你选了"创造力培养"作为素质发展的痛点。这个焦虑是从哪来的？是觉得学校不够，还是觉得孩子在这方面有天赋但没被开发？</div>
+              <div class="q-follow">你有没有想过AI工具可以帮助培养创造力？你觉得它可以怎么做？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-title">产品探索 & 收尾</div>
+        <div class="phase-time">≈ 7 min</div>
+      </div>
+      <div class="phase-purpose">目的：从"检查作业"扩展到全链路需求，捕捉产品期望</div>
+      <div class="phase-body">
+        <div class="ctx-box">
+          <div class="ctx-title">问卷数据回顾</div>
+          <div class="ctx-content">功能选了3项：讲故事/读绘本 + 陪孩子学习·一步步教 + 解答十万个为什么</div>
+        </div>
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">10</div>
+            <div class="q-body">
+              <div class="q-main">你选了"讲故事""陪学习""十万个为什么"三个功能，覆盖了娱乐、学习、好奇心三个维度。你觉得这三个里最重要的是哪个？</div>
+              <div class="q-follow">9岁的孩子还需要讲故事吗？你是怎么想的？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">11</div>
+            <div class="q-body">
+              <div class="q-main">你已经在用豆包了，如果有一个AI玩具，它和你手机上的豆包有什么不同才会让你愿意买？</div>
+              <div class="q-follow">是需要一个独立的硬件给孩子用？还是一个更好用的App就够了？你更看重什么？</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-marker" style="background:var(--teal-l);color:var(--teal-d);">12</div>
+            <div class="q-body">
+              <div class="q-main">最后一个问题：你现在最希望有一个工具帮你做什么？如果只能选一件事。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <div style="height:48px;"></div>
+
+<!-- ==================== 展示方案 ==================== -->
+<div class="interview" id="demos" style="margin-bottom:0;">
+  <div class="interview-header" style="border-radius:var(--radius);border:0.5px solid var(--border);border-bottom:0.5px solid var(--border);">
+    <div class="interview-avatar" style="background:linear-gradient(135deg,#1A1814,#3C3836);font-size:16px;">🚀</div>
+    <div>
+      <div class="interview-name">产品方案展示</div>
+      <div class="interview-meta">访谈中可向家长展示的AI功能Demo · 点击卡片可直接体验</div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-grid">
+
+  <!-- AI闯关学习 -->
+  <div class="demo-card">
+    <div class="demo-card-top">
+      <div class="demo-icon" style="background:var(--coral-l);">🎮</div>
+      <div class="demo-name">AI闯关学习</div>
+      <div class="demo-desc">游戏化闯关模式学习，通过关卡激励孩子自主学习，适合激发学习动力和自驱力。</div>
+      <div class="demo-tags">
+        <span class="demo-tag" style="background:var(--coral-l);color:var(--coral-d);">游戏化</span>
+        <span class="demo-tag" style="background:var(--amber-l);color:var(--amber-d);">自驱力</span>
+      </div>
+    </div>
+    <div class="demo-card-bottom">
+      <a class="demo-link" style="background:var(--coral-l);color:var(--coral-d);" href="weixin://dl/business/?appid=wx&path=#小程序://新东方欧亚小语宙/gew1BMK6EwBbuxI" target="_blank">微信小程序 →</a>
+      <div class="demo-status"><div class="demo-status-dot" style="background:#5DCAA5;"></div>可体验</div>
+    </div>
+  </div>
+
+  <!-- AI绘本 -->
+  <div class="demo-card">
+    <div class="demo-card-top">
+      <div class="demo-icon" style="background:var(--purple-l);">📖</div>
+      <div class="demo-name">AI绘本</div>
+      <div class="demo-desc">AI驱动的互动绘本体验，孩子可以和故事角色对话，听什么讲什么，双向互动。</div>
+      <div class="demo-tags">
+        <span class="demo-tag" style="background:var(--purple-l);color:var(--purple-d);">互动绘本</span>
+        <span class="demo-tag" style="background:var(--teal-l);color:var(--teal-d);">陪伴</span>
+      </div>
+    </div>
+    <div class="demo-card-bottom">
+      <a class="demo-link" style="background:var(--purple-l);color:var(--purple-d);" href="weixin://dl/business/?appid=wx&path=#小程序://听鹅说/WeChat/3Hjr5wfPhqIjmpg" target="_blank">微信小程序 →</a>
+      <div class="demo-status"><div class="demo-status-dot" style="background:#5DCAA5;"></div>可体验</div>
+    </div>
+  </div>
+
+  <!-- AI听写 -->
+  <div class="demo-card">
+    <div class="demo-card-top">
+      <div class="demo-icon" style="background:var(--blue-l);">✍️</div>
+      <div class="demo-name">AI听写</div>
+      <div class="demo-desc">智能听写助手，替代家长完成听写/默写检查任务，解放家长最耗时的学习辅导场景。</div>
+      <div class="demo-tags">
+        <span class="demo-tag" style="background:var(--blue-l);color:var(--blue-d);">学习辅助</span>
+        <span class="demo-tag" style="background:var(--coral-l);color:var(--coral-d);">解放家长</span>
+      </div>
+    </div>
+    <div class="demo-card-bottom">
+      <a class="demo-link" style="background:var(--blue-l);color:var(--blue-d);" href="#/" target="_blank">打开 Demo →</a>
+      <div class="demo-status"><div class="demo-status-dot" style="background:#5DCAA5;"></div>可体验</div>
+    </div>
+  </div>
+
+  <!-- AI背诵 -->
+  <div class="demo-card">
+    <div class="demo-card-top">
+      <div class="demo-icon" style="background:var(--teal-l);">🗣️</div>
+      <div class="demo-name">AI背诵</div>
+      <div class="demo-desc">AI陪伴背诵检查，支持课文、古诗词等内容的智能校对与反馈，替代家长逐字检查。</div>
+      <div class="demo-tags">
+        <span class="demo-tag" style="background:var(--teal-l);color:var(--teal-d);">背诵检查</span>
+        <span class="demo-tag" style="background:var(--amber-l);color:var(--amber-d);">智能校对</span>
+      </div>
+    </div>
+    <div class="demo-card-bottom">
+      <a class="demo-link" style="background:var(--teal-l);color:var(--teal-d);" href="#/" target="_blank">打开 Demo →</a>
+      <div class="demo-status"><div class="demo-status-dot" style="background:#5DCAA5;"></div>可体验</div>
+    </div>
+  </div>
+
+  <!-- AI状态 -->
+  <div class="demo-card full-width">
+    <div class="demo-card-top">
+      <div class="demo-icon" style="background:var(--amber-l);">📊</div>
+      <div class="demo-name">AI状态</div>
+      <div class="demo-desc">记录并分析孩子的学习状态、情绪变化和成长轨迹，定期推送给家长查看。帮助家长"看见"孩子的日常状态，从被动应对转为主动感知。</div>
+      <div class="demo-tags">
+        <span class="demo-tag" style="background:var(--amber-l);color:var(--amber-d);">成长记录</span>
+        <span class="demo-tag" style="background:var(--blue-l);color:var(--blue-d);">状态感知</span>
+        <span class="demo-tag" style="background:var(--purple-l);color:var(--purple-d);">家长端</span>
+      </div>
+    </div>
+    <div class="demo-card-bottom">
+      <span style="font-size:12px;color:var(--text-3);font-style:italic;">落地页面制作中，待补充</span>
+      <div class="demo-status"><div class="demo-status-dot" style="background:var(--text-3);"></div>待上线</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="footer">
+  <div class="container">
+    基于2026年4月问卷数据定制 · 每份大纲约30分钟 · 建议录音并事后补充笔记<br>
+    访谈核心原则：多听少说 · 追问具体场景 · 不引导答案 · 沉默留白让对方思考
+  </div>
+</div>
+
+<script>
+  const sections = ['zhaowei','tuhailong','zhaoshuying','allenyu','demos'];
+  const links = document.querySelectorAll('.navbar-link');
+  const NAV_H = 48;
+  function updateActive() {
+    let current = sections[0];
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= NAV_H + 40) current = id;
+    }
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.getElementById(a.getAttribute('href').slice(1));
+      if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - NAV_H - 12, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
