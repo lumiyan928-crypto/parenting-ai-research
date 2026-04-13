@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家庭AI育娃 · 调研总结报告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F7F5F0;--card:#FFFFFF;--muted:#F0EDE6;
+  --text:#1A1814;--text2:#5C5750;--text3:#9B9489;
+  --border:rgba(30,24,16,0.1);--border2:rgba(30,24,16,0.18);
+  --purple-l:#EEEDFE;--purple:#AFA9EC;--purple-d:#534AB7;
+  --teal-l:#E1F5EE;--teal:#5DCAA5;--teal-d:#0F6E56;
+  --coral-l:#FAECE7;--coral:#F0997B;--coral-d:#993C1D;
+  --blue-l:#E6F1FB;--blue:#85B7EB;--blue-d:#185FA5;
+  --amber-l:#FAEEDA;--amber-d:#633806;
+  --red-l:#FDE8E8;--red-d:#9B1C1C;
+  --serif:'Noto Serif SC',serif;--sans:'Noto Sans SC',sans-serif;
+  --r:12px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(26,24,20,.96);backdrop-filter:blur(12px);border-bottom:.5px solid rgba(255,255,255,.08)}
+.nav-inner{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:48px}
+.nav-logo{font-family:var(--serif);font-size:13px;font-weight:700;color:#fff;white-space:nowrap;margin-right:24px;flex-shrink:0}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{font-size:11px;color:rgba(255,255,255,.4);text-decoration:none;padding:6px 9px;border-radius:6px;white-space:nowrap;transition:.15s}
+.nav-link:hover{color:rgba(255,255,255,.9);background:rgba(255,255,255,.07)}
+.nav-link.active{color:#fff;background:rgba(255,255,255,.1)}
+
+/* HEADER */
+.hero{background:var(--text);color:#fff;padding:56px 0 48px;text-align:center}
+.hero-tag{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px;font-weight:300}
+.hero h1{font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.3;margin-bottom:10px}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.45);font-weight:300}
+.hero-stats{display:flex;justify-content:center;gap:36px;margin-top:32px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:var(--serif);font-size:28px;font-weight:700}
+.stat-label{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+
+/* LAYOUT */
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+.section{padding:48px 0 0}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:24px}
+.sec-num{font-family:var(--serif);font-size:13px;color:var(--text3);flex-shrink:0}
+.sec-title{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.01em}
+
+/* CARDS */
+.card{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:16px}
+.card-sm{padding:16px 20px}
+.card-flush{padding:0;overflow:hidden}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* BADGE */
+.badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:14px;font-weight:500}
+.badge-muted{background:var(--muted);color:var(--text3)}
+
+/* TIMELINE ROW */
+.tl-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:.5px solid var(--border)}
+.tl-row:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tl-body{flex:1}
+.tl-name{font-size:13px;font-weight:500}
+.tl-sub{font-size:11px;color:var(--text3);margin-top:1px}
+
+/* PAIN BARS */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-label{font-size:12px;color:var(--text2);width:80px;flex-shrink:0}
+.bar-track{flex:1;height:8px;background:var(--muted);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-val{font-size:11px;color:var(--text3);min-width:60px;text-align:right}
+
+/* VOTE */
+.vote-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.vote-label{font-size:12px;color:var(--text2);flex:1}
+.vote-track{width:120px;height:6px;background:var(--muted);border-radius:3px;overflow:hidden;flex-shrink:0}
+.vote-fill{height:100%;border-radius:3px}
+.vote-num{font-size:11px;color:var(--text3);min-width:36px;text-align:right}
+
+/* COMPARE TABLE */
+.cmp-table{width:100%;border-collapse:collapse;font-size:12px}
+.cmp-table th{text-align:left;padding:8px 10px;color:var(--text3);font-weight:400;font-size:11px;border-bottom:1px solid var(--border)}
+.cmp-table th.c{text-align:center}
+.cmp-table td{padding:9px 10px;border-bottom:.5px solid var(--border);color:var(--text2);vertical-align:middle}
+.cmp-table td.c{text-align:center}
+.cmp-table tr:last-child td{border-bottom:none}
+
+/* INSIGHT BOX */
+.insight{border-radius:var(--rs);padding:14px 16px;margin-top:16px}
+.insight-title{font-size:12px;font-weight:600;margin-bottom:4px}
+.insight-desc{font-size:12px;line-height:1.7}
+
+/* QUOTE */
+.quote{font-size:12px;color:var(--text2);font-style:italic;background:var(--card);border-left:2px solid var(--border2);padding:6px 12px;border-radius:0 4px 4px 0;line-height:1.6;margin-bottom:6px}
+.quote-author{font-style:normal;color:var(--text3);font-weight:500}
+.quotes-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:640px){.quotes-grid{grid-template-columns:1fr}}
+
+/* THEME CARD (for interview insights) */
+.theme{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.theme-head{padding:20px 24px;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:14px}
+.theme-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.theme-name{font-family:var(--serif);font-size:17px;font-weight:700}
+.theme-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.theme-body{padding:20px 24px}
+.theme-section{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:16px 0 8px}
+.theme-section:first-child{margin-top:0}
+.theme-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chip{font-size:11px;padding:2px 8px;border-radius:10px}
+.chip-hot{background:var(--coral-l);color:var(--coral-d)}
+.chip-ok{background:var(--teal-l);color:var(--teal-d)}
+.chip-warn{background:var(--amber-l);color:var(--amber-d)}
+.chip-muted{background:var(--muted);color:var(--text2);border:.5px solid var(--border)}
+
+/* PROFILE CARD */
+.profile{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.profile-head{display:flex;align-items:center;gap:14px;padding:20px 24px;border-bottom:.5px solid var(--border)}
+.profile-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
+.profile-name{font-family:var(--serif);font-size:18px;font-weight:700}
+.profile-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.profile-body{padding:20px 24px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.profile-item{background:var(--muted);border-radius:var(--rs);padding:10px 12px}
+.profile-item-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.profile-item-value{font-size:13px;font-weight:500}
+.profile-sub{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:16px 0 8px}
+.profile-sub:first-child{margin-top:0}
+
+/* STAR RATING */
+.stars{display:inline-flex;gap:1px;font-size:13px}
+.star-on{color:#F0997B}
+.star-off{color:#ddd}
+
+/* MATRIX TABLE */
+.mx-table{width:100%;border-collapse:collapse;font-size:12px}
+.mx-table th{padding:10px 8px;text-align:center;font-size:11px;color:var(--text3);font-weight:500;border-bottom:1px solid var(--border);background:var(--muted)}
+.mx-table th:first-child{text-align:left;padding-left:14px}
+.mx-table td{padding:10px 8px;text-align:center;border-bottom:.5px solid var(--border);vertical-align:middle}
+.mx-table td:first-child{text-align:left;font-weight:500;padding-left:14px;color:var(--text)}
+.mx-table tr:last-child td{border-bottom:none}
+.mx-hot{background:var(--coral-l);color:var(--coral-d);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600}
+.mx-ok{background:var(--teal-l);color:var(--teal-d);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600}
+.mx-warn{background:var(--amber-l);color:var(--amber-d);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600}
+.mx-ban{background:var(--red-l);color:var(--red-d);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600}
+.mx-na{color:var(--text3);font-size:10px}
+
+/* STRATEGY */
+.strat-card{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:12px;display:flex;gap:14px}
+.strat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.strat-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.strat-desc{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* SUB LABEL */
+.sub-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:20px 0 10px}
+.sub-label:first-child{margin-top:0}
+.divider{height:.5px;background:var(--border);margin:20px 0}
+
+.footer{text-align:center;padding:48px 0 56px;color:var(--text3);font-size:12px;line-height:1.8}
+@media(max-width:640px){
+  .hero h1{font-size:24px}
+  .hero-stats{gap:20px}
+  .profile-grid{grid-template-columns:1fr}
+  .container{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">调研总结</div>
+    <div class="nav-links">
+      <a class="nav-link" href="#s1">研究概览</a>
+      <a class="nav-link" href="#s2">问卷数据</a>
+      <a class="nav-link" href="#s3">访谈洞察</a>
+      <a class="nav-link" href="#s4">用户档案</a>
+      <a class="nav-link" href="#s5">功能矩阵</a>
+      <a class="nav-link" href="#s6">策略建议</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <div class="hero-tag">家庭AI育娃 · 阶段性调研总结</div>
+    <h1>用户调研总结报告</h1>
+    <div class="hero-sub">问卷定量（N=19）+ 深度访谈定性（N=5）· 2026年4月 · 广东深圳</div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">19</div><div class="stat-label">有效问卷</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">深度访谈</div></div>
+      <div class="stat"><div class="stat-num">22</div><div class="stat-label">涉及孩子数</div></div>
+      <div class="stat"><div class="stat-num">1.5–13</div><div class="stat-label">年龄范围（岁）</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ========== 01 研究概览 ========== -->
+<div class="section" id="s1">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <span class="sec-title">研究概览</span>
+  </div>
+
+  <div class="card card-sm">
+    <div class="sub-label">方法论</div>
+    <div class="grid-2">
+      <div class="profile-item">
+        <div class="profile-item-label">定量：问卷调研</div>
+        <div class="profile-item-value">19份有效问卷 · 22名孩子 · 4月3日–8日回收</div>
+      </div>
+      <div class="profile-item">
+        <div class="profile-item-label">定性：深度访谈</div>
+        <div class="profile-item-value">5位家长 · 每人约30分钟 · 4月9日–12日完成</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="sub-label">访谈对象</div>
+    <div class="card-flush" style="border:.5px solid var(--border);border-radius:var(--rs);">
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--coral);"></div>
+        <div class="tl-body">
+          <div class="tl-name">赵书影（书影）</div>
+          <div class="tl-sub">男孩8岁 · 高知高投入家庭 · 配偶为学霸型家长 · 已深度使用AI工具</div>
+        </div>
+        <span class="badge" style="background:var(--coral-l);color:var(--coral-d);">6–9岁</span>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--blue);"></div>
+        <div class="tl-body">
+          <div class="tl-name">涂海龙（龙哥）</div>
+          <div class="tl-sub">姐姐11岁 + 弟弟6岁 · 二胎家庭 · 父亲主导管教 · 务实反内卷</div>
+        </div>
+        <span class="badge" style="background:var(--blue-l);color:var(--blue-d);">多孩跨段</span>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--teal);"></div>
+        <div class="tl-body">
+          <div class="tl-name">赵伟</div>
+          <div class="tl-sub">大女儿9岁 + 小女儿6岁 · 首席教育架构师 · 亲自设计教学方法 · 极度反监控</div>
+        </div>
+        <span class="badge" style="background:var(--teal-l);color:var(--teal-d);">多孩跨段</span>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--purple);"></div>
+        <div class="tl-body">
+          <div class="tl-name">allenyu（Allen）</div>
+          <div class="tl-sub">女儿9岁 · 极客型家长 · 自研游戏化学习方案 · 已使用豆包检查作业</div>
+        </div>
+        <span class="badge" style="background:var(--purple-l);color:var(--purple-d);">6–9岁</span>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:#E8B4B8;"></div>
+        <div class="tl-body">
+          <div class="tl-name">子健</div>
+          <div class="tl-sub">女儿6岁 · 极度佛系 · 拒绝内卷 · 重视运动与独立思考 · 几乎不接触电子产品</div>
+        </div>
+        <span class="badge" style="background:#FDF2F2;color:#9B1C1C;">3–6岁</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 02 问卷数据总览 ========== -->
+<div class="section" id="s2">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <span class="sec-title">问卷数据总览</span>
+  </div>
+
+  <!-- 年龄分布 -->
+  <div class="card">
+    <div class="sub-label">年龄层分布（19份问卷 · 22名孩子）</div>
+    <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;margin-bottom:12px">
+      <div style="flex:5;background:var(--purple);border-radius:7px 0 0 7px"></div>
+      <div style="flex:5;background:var(--teal)"></div>
+      <div style="flex:5;background:var(--coral)"></div>
+      <div style="flex:7;background:var(--blue);border-radius:0 7px 7px 0"></div>
+    </div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--text2)">
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--purple);vertical-align:middle;margin-right:5px"></span>0–3岁（5人）</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--teal);vertical-align:middle;margin-right:5px"></span>3–6岁（5人）</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--coral);vertical-align:middle;margin-right:5px"></span>6–9岁（5人）</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--blue);vertical-align:middle;margin-right:5px"></span>9–13岁（7人）</span>
+    </div>
+  </div>
+
+  <!-- 心累排序 -->
+  <div class="card">
+    <div class="sub-label">各年龄段最心累领域</div>
+    <div class="cmp-table" style="margin-bottom:0">
+      <table class="cmp-table">
+        <thead><tr>
+          <th>年龄段</th>
+          <th class="c" style="color:var(--purple-d)">0–3岁</th>
+          <th class="c" style="color:var(--teal-d)">3–6岁</th>
+          <th class="c" style="color:var(--coral-d)">6–9岁</th>
+          <th class="c" style="color:var(--blue-d)">9–13岁</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>TOP1 痛点</td><td class="c" style="font-weight:500">身心健康</td><td class="c" style="font-weight:500">习惯养成</td><td class="c" style="font-weight:500">学习 ≈ 习惯</td><td class="c" style="font-weight:500">习惯养成</td></tr>
+          <tr><td>学习压力</td><td class="c">🟡 几乎无</td><td class="c">🟡 萌芽中</td><td class="c">🔴 全票爆发</td><td class="c">🔴 立体化</td></tr>
+          <tr><td>AI渗透</td><td class="c">家长端 4/5</td><td class="c">极低</td><td class="c">孩子端 2/5</td><td class="c">孩子端 3/7</td></tr>
+          <tr><td>核心价值词</td><td class="c" style="font-style:italic">解放</td><td class="c" style="font-style:italic">启蒙</td><td class="c" style="font-style:italic">减负</td><td class="c" style="font-style:italic">赋能</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 功能票选 -->
+  <div class="card">
+    <div class="sub-label">功能票选TOP排名（限选3项，N=19）</div>
+    <div class="vote-row"><div class="vote-label">解答十万个为什么</div><div class="vote-track"><div class="vote-fill" style="width:58%;background:var(--teal)"></div></div><div class="vote-num">11/19</div></div>
+    <div class="vote-row"><div class="vote-label">成长记录推送给家长</div><div class="vote-track"><div class="vote-fill" style="width:47%;background:var(--blue)"></div></div><div class="vote-num">9/19</div></div>
+    <div class="vote-row"><div class="vote-label">讲故事 / 读绘本</div><div class="vote-track"><div class="vote-fill" style="width:42%;background:var(--purple)"></div></div><div class="vote-num">8/19</div></div>
+    <div class="vote-row"><div class="vote-label">提醒坐姿 / 防走神</div><div class="vote-track"><div class="vote-fill" style="width:37%;background:var(--coral)"></div></div><div class="vote-num">7/19</div></div>
+    <div class="vote-row"><div class="vote-label">陪孩子学习·一步步教</div><div class="vote-track"><div class="vote-fill" style="width:26%;background:#B4B2A9"></div></div><div class="vote-num">5/19</div></div>
+    <div class="vote-row"><div class="vote-label">记住孩子·像真正的朋友</div><div class="vote-track"><div class="vote-fill" style="width:16%;background:#B4B2A9"></div></div><div class="vote-num">3/19</div></div>
+    <div class="vote-row"><div class="vote-label">电子宠物</div><div class="vote-track"><div class="vote-fill" style="width:21%;background:#B4B2A9"></div></div><div class="vote-num">4/19</div></div>
+    <div class="insight" style="background:var(--muted)">
+      <div class="insight-title" style="color:var(--text)">📌 关键发现</div>
+      <div class="insight-desc" style="color:var(--text2)"><strong>「十万个为什么」</strong>是唯一跨三个年龄段高票的功能（3-6岁3/5，6-9岁4/5，9-13岁2/7）。<strong>「成长记录」</strong>在0-3岁和9-13岁均入前二但动机不同：前者"解放"，后者"感知"。<strong>「提醒坐姿」</strong>问卷有票但访谈揭示为伪需求（详见03节）。</div>
+    </div>
+  </div>
+
+  <!-- 工具使用 -->
+  <div class="card">
+    <div class="sub-label">家长工具使用现状</div>
+    <div class="grid-3">
+      <div class="profile-item">
+        <div class="profile-item-label">AI工具</div>
+        <div class="profile-item-value">6/19（32%）</div>
+      </div>
+      <div class="profile-item">
+        <div class="profile-item-label">其他工具/App</div>
+        <div class="profile-item-value">4/19（21%）</div>
+      </div>
+      <div class="profile-item">
+        <div class="profile-item-label">纯人力解决</div>
+        <div class="profile-item-value">9/19（47%）</div>
+      </div>
+    </div>
+    <div class="insight" style="background:var(--coral-l)">
+      <div class="insight-title" style="color:var(--coral-d)">⚡ 近半数家长纯人力解决——不是不想用工具，是"没合适的"</div>
+      <div class="insight-desc" style="color:#4A1B0C">涂海龙：「没合适的」· 赵正武：「以上方式都用过，效果不佳」· zijianhuang：「没想到其他好办法」——纯人力背后是巨大的工具空白市场。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 03 访谈深度洞察 ========== -->
+<div class="section" id="s3">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <span class="sec-title">访谈深度洞察</span>
+  </div>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:24px">以下洞察基于5位家长的深度访谈，按主题聚合呈现，而非逐人堆砌——更利于产品决策。</p>
+
+  <!-- 主题1: 军师 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--purple-l)">🧠</div>
+      <div>
+        <div class="theme-name">主题一：家长不要"替代者"，要"军师"</div>
+        <div class="theme-sub">产品应赋能家长，而非越俎代庖</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">问卷信号</div>
+      <p style="font-size:12px;color:var(--text2)">47%的家长纯人力解决，AI仅用于家长自身查资料/对比方案，而非直接给孩子使用。</p>
+      <div class="theme-section">访谈验证</div>
+      <div class="theme-chips">
+        <span class="chip chip-hot">书影：AI是"育儿数字军师" ⭐⭐⭐⭐⭐</span>
+        <span class="chip chip-ok">赵伟：亲自设计教学，AI仅辅助出题</span>
+        <span class="chip chip-ok">Allen：自研游戏化方案，AI是执行助手</span>
+        <span class="chip chip-warn">龙哥：极度排斥AI说教，更信真实案例</span>
+      </div>
+      <div class="divider"></div>
+      <div class="quotes-grid">
+        <div class="quote">「很希望产品能"蒸馏"教育专家的理论。AI是用来增强家长能力的。」<br><span class="quote-author">—— 书影</span></div>
+        <div class="quote">「学习的主要思路上，肯定还是我亲自带。我很少买教材，基本都是拿个小黑板直接给她讲。」<br><span class="quote-author">—— 赵伟</span></div>
+        <div class="quote">「我自己的主题就是游戏化学习，这种才会让小孩持续地去用。」<br><span class="quote-author">—— Allen</span></div>
+        <div class="quote">「除非AI能在家里监控分析两天给出绝对定制化建议，否则完全不信通用育儿大道理。」<br><span class="quote-author">—— 龙哥</span></div>
+      </div>
+      <div class="insight" style="background:var(--purple-l)">
+        <div class="insight-title" style="color:var(--purple-d)">💡 结论</div>
+        <div class="insight-desc" style="color:#3C3489">产品定位应为<strong>"赋能家长的数字军师"</strong>——帮家长生成策略、出题、检查，而非取代家长教孩子。高知家长的高阶AI用法（如生成长高计划、课文背景拓展）若能"傻瓜化"封装，对普通家庭是降维打击。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主题2: 监控雷区 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--red-l)">🚫</div>
+      <div>
+        <div class="theme-name">主题二：监控是雷区，自驱力才是真需求</div>
+        <div class="theme-sub">问卷中的"坐姿提醒"票数是伪信号</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">问卷信号</div>
+      <p style="font-size:12px;color:var(--text2)">「提醒坐姿/防走神」获得7/19票——但访谈揭示家长真正排斥的是监控本身。</p>
+      <div class="theme-section">访谈验证（5/5一致排斥）</div>
+      <div class="quotes-grid">
+        <div class="quote">「立个设备在那监督学习纯属瞎搞。8岁孩子已有反PUA意识。」<br><span class="quote-author">—— 书影 ⭐（极排斥）</span></div>
+        <div class="quote">「四年级孩子很烦监控。你第一天给她带，她第二天肯定给你扔了。」<br><span class="quote-author">—— 赵伟 ⭐（极排斥）</span></div>
+        <div class="quote">「买过带屏台灯，强制关闭所有智能功能，仅当普通台灯用。」<br><span class="quote-author">—— 龙哥（强排斥）</span></div>
+        <div class="quote">「语音提醒治标不治本，孩子离开视线即刻原形毕露。」<br><span class="quote-author">—— 子健 ⭐（无感）</span></div>
+      </div>
+      <div class="insight" style="background:var(--red-l)">
+        <div class="insight-title" style="color:var(--red-d)">⛔ 结论：监控类功能是产品设计的绝对雷区</div>
+        <div class="insight-desc" style="color:#6B1C1C">家长要的不是"外部监督"，而是<strong>激发孩子的自驱力</strong>。摄像头/坐姿检测等侵入式功能会适得其反——尤其对4年级以上有独立意识的孩子。赵伟还指出学校已禁止智能手表，"看实时状态不现实"。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主题3: 社交驱动 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--teal-l)">🤝</div>
+      <div>
+        <div class="theme-name">主题三：习惯养成靠"社交驱动"，不靠"打卡积分"</div>
+        <div class="theme-sub">单机版奖励机制对大龄儿童迅速失效</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">问卷信号</div>
+      <p style="font-size:12px;color:var(--text2)">习惯养成在3-6岁、6-9岁、9-13岁三个年龄段均排名前二，是贯穿全年龄段的第一痛点。</p>
+      <div class="theme-section">访谈验证</div>
+      <div class="quotes-grid">
+        <div class="quote">「物质奖励（买猫换早起）仅维持1-2个月，新鲜感过后立刻打回原形。」<br><span class="quote-author">—— 龙哥</span></div>
+        <div class="quote">「设计成游戏环节，如果有积分或实物奖励，孩子会很有目标感。但用久了也需要新的吸引力。」<br><span class="quote-author">—— 赵伟</span></div>
+        <div class="quote">「同龄人对比最有效。极度推崇寻找身边榜样的潜移默化式教育。」<br><span class="quote-author">—— 龙哥</span></div>
+        <div class="quote">「过往买过电子宠物，极易吃灰。功能是否成立完全取决于任务设计的持续趣味性。」<br><span class="quote-author">—— 子健</span></div>
+      </div>
+      <div class="insight" style="background:var(--teal-l)">
+        <div class="insight-title" style="color:var(--teal-d)">💡 结论</div>
+        <div class="insight-desc" style="color:#085041">单机版打卡/积分对大龄儿童（9岁+）1-2个月即失效。<strong>社交PK/同伴榜样机制</strong>（如与好朋友的阅读时长对比）比积分更有持续性。游戏化设计必须有足够的教育质量支撑，否则高知家长会迅速看穿并抛弃。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主题4: AI两极分化 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--amber-l)">🤖</div>
+      <div>
+        <div class="theme-name">主题四：AI工具已渗透，但用法两极分化</div>
+        <div class="theme-sub">高知家长是深度用户，普通家长仍是空白</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">从问卷到访谈的渐进发现</div>
+      <div class="grid-2" style="margin-bottom:12px">
+        <div class="profile-item">
+          <div class="profile-item-label">深度AI用户</div>
+          <div class="profile-item-value">书影：AI生成长高计划、课文拓展<br>赵伟：让9岁女儿自主用AI写作<br>Allen：豆包检查作业 + AI写剧本</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-item-label">AI空白用户</div>
+          <div class="profile-item-value">龙哥：完全不用AI，更信真实案例视频<br>子健：极少接触电子产品，佛系育儿<br>47%问卷家长：纯人力解决</div>
+        </div>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote">「AI能把这些高阶用法傻瓜式封装给普通家长，会有极大价值。」<br><span class="quote-author">—— 书影</span></div>
+        <div class="quote">「更愿意看具有相似背景的真实家庭解决问题的实操案例视频。」<br><span class="quote-author">—— 龙哥</span></div>
+      </div>
+      <div class="insight" style="background:var(--amber-l)">
+        <div class="insight-title" style="color:var(--amber-d)">💡 结论</div>
+        <div class="insight-desc" style="color:#3C2106">产品机会在于<strong>将高知家长的高阶AI用法"傻瓜化"封装</strong>——让普通家长遇到问题时，AI不仅提供理论，还能直接推送"行为打卡表"或"睡前对话引导词"。对于AI排斥型用户，"真实案例推送"比"AI说教"更有说服力。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主题5: 硬件悖论 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--blue-l)">📱</div>
+      <div>
+        <div class="theme-name">主题五：硬件形态的"死循环"悖论</div>
+        <div class="theme-sub">没有一种硬件形态能完美解决问题</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">四种形态全部踩坑</div>
+      <div class="grid-2" style="margin-bottom:12px">
+        <div class="profile-item" style="border-left:3px solid var(--coral)">
+          <div class="profile-item-label">❌ 带屏设备</div>
+          <div class="profile-item-value">屏幕一定让孩子分心。龙哥买了大力台灯，强制关闭智能功能当普通台灯。</div>
+        </div>
+        <div class="profile-item" style="border-left:3px solid var(--coral)">
+          <div class="profile-item-label">❌ 无屏设备</div>
+          <div class="profile-item-value">缺乏视觉交互。龙哥买过AI徽章玩具，孩子仅玩3天便失去兴趣。</div>
+        </div>
+        <div class="profile-item" style="border-left:3px solid var(--coral)">
+          <div class="profile-item-label">❌ 固定桌面</div>
+          <div class="profile-item-value">无法跟随孩子。子健：固定摄像头与智能音箱"只是换了个AI大脑"。</div>
+        </div>
+        <div class="profile-item" style="border-left:3px solid var(--coral)">
+          <div class="profile-item-label">❌ 可穿戴</div>
+          <div class="profile-item-value">学校强制摘掉。赵伟：手表进教室第一件事就是被老师收走。</div>
+        </div>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote">「目前的固定摄像头形态与智能音箱差异不大。若要真正陪伴，产品必须具备空间移动能力。」<br><span class="quote-author">—— 子健</span></div>
+        <div class="quote">「800元的定价过高，比儿童手表都贵，玩犊子。」心理价位 ≤500 元。<br><span class="quote-author">—— 龙哥</span></div>
+      </div>
+      <div class="insight" style="background:var(--blue-l)">
+        <div class="insight-title" style="color:var(--blue-d)">💡 结论</div>
+        <div class="insight-desc" style="color:#0C447C">目前没有一种硬件形态能完美解决问题。<strong>"软件+多形态适配"可能比单一硬件更可行。</strong>若做硬件，可移动的仿生形态（如四足宠物）是唯一获得正面反馈的方向，但价格敏感度极高（≤500元）。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 04 用户个人档案 ========== -->
+<div class="section" id="s4">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <span class="sec-title">访谈用户个人档案</span>
+  </div>
+
+  <!-- 书影 -->
+  <div class="profile">
+    <div class="profile-head">
+      <div class="profile-avatar" style="background:linear-gradient(135deg,var(--coral),#E07A5F)">书</div>
+      <div>
+        <div class="profile-name">赵书影（书影）</div>
+        <div class="profile-meta">高知高投入家庭 · 男孩8岁 · 配偶为学霸型家长 · "育儿数字军师"理念</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-sub">家长画像</div>
+      <div class="profile-grid">
+        <div class="profile-item"><div class="profile-item-label">角色</div><div class="profile-item-value">配偶（学霸型）主导规划，阿姨照料日常</div></div>
+        <div class="profile-item"><div class="profile-item-label">教育理念</div><div class="profile-item-value">不焦虑分数，极看重自我管理+潜力+心理健康</div></div>
+        <div class="profile-item"><div class="profile-item-label">工具偏好</div><div class="profile-item-value">重度AI用户（豆包/元宝/DeepSeek）</div></div>
+        <div class="profile-item"><div class="profile-item-label">亮点做法</div><div class="profile-item-value">白板任务+代币制 / 睡前复述 / AI长高计划</div></div>
+      </div>
+      <div class="profile-sub">核心痛点</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px">① 男孩情绪管理（亲子冲突时缺乏第三方干预） ② 偏科隐患（缺早期阅读习惯） ③ 家长群社交内耗</p>
+      <div class="profile-sub">功能验证</div>
+      <div style="font-size:12px;line-height:2">
+        AI育儿军师 <span class="stars"><span class="star-on">★★★★★</span></span> ·
+        AI辅助理解与学习 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span> ·
+        AI定制绘本 <span class="stars"><span class="star-on">★★★</span><span class="star-off">☆☆</span></span><br>
+        桌面监控 <span class="stars"><span class="star-on">★</span><span class="star-off">☆☆☆☆</span></span><span style="color:var(--red-d);font-size:11px;margin-left:4px">极排斥</span> ·
+        代写家校文案 <span class="stars"><span class="star-on">★★</span><span class="star-off">☆☆☆</span></span>
+      </div>
+      <div class="divider"></div>
+      <div class="quote">「在亲子冲突后，家长通过向AI描述事实，获取客观的事情梳理和沟通策略，而不是单向地去教育孩子。」</div>
+    </div>
+  </div>
+
+  <!-- 龙哥 -->
+  <div class="profile">
+    <div class="profile-head">
+      <div class="profile-avatar" style="background:linear-gradient(135deg,var(--blue),#4A90D9)">龙</div>
+      <div>
+        <div class="profile-name">涂海龙（龙哥）</div>
+        <div class="profile-meta">二胎家庭 · 姐姐11岁+弟弟6岁 · 务实反内卷 · 父亲主导管教</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-sub">家长画像</div>
+      <div class="profile-grid">
+        <div class="profile-item"><div class="profile-item-label">分工</div><div class="profile-item-value">父亲主导规矩/习惯，母亲角色宽松（孩子更亲近）</div></div>
+        <div class="profile-item"><div class="profile-item-label">教育理念</div><div class="profile-item-value">日后能补救分数，底层习惯和教养不可逆</div></div>
+        <div class="profile-item"><div class="profile-item-label">核心方法</div><div class="profile-item-value">"口头说教无效"→ 同龄人对比 + 身边榜样</div></div>
+        <div class="profile-item"><div class="profile-item-label">付费敏感</div><div class="profile-item-value">心理价位 ≤500元，800元"玩犊子"</div></div>
+      </div>
+      <div class="profile-sub">核心痛点</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px">① 习惯与品德纠正（姐姐坐姿差/弟弟偷拿东西）② 作息失调（拖至10:30-11:30）③ 专注力与自主阅读匮乏</p>
+      <div class="profile-sub">功能验证</div>
+      <div style="font-size:12px;line-height:2">
+        桌面状态宠物 <span class="stars"><span class="star-on">★★★★★</span></span> ·
+        成长记录沉淀 <span class="stars"><span class="star-on">★★★★★</span></span> ·
+        十万个为什么 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span><br>
+        AI育儿说教 <span class="stars"><span class="star-on">★</span><span class="star-off">☆☆☆☆</span></span><span style="color:var(--red-d);font-size:11px;margin-left:4px">极排斥</span>
+      </div>
+      <div class="divider"></div>
+      <div class="quote">「摸鱼的时候一定会点进去看。如果右下角有个虚拟宠物显示孩子在写作业，能极大缓解牵挂。」</div>
+    </div>
+  </div>
+
+  <!-- 赵伟 -->
+  <div class="profile">
+    <div class="profile-head">
+      <div class="profile-avatar" style="background:linear-gradient(135deg,var(--teal),#3BA683)">赵</div>
+      <div>
+        <div class="profile-name">赵伟</div>
+        <div class="profile-meta">多孩 · 大女儿9岁+小女儿6岁 · "首席教育架构师" · 极度反监控反喂答案</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-sub">家长画像</div>
+      <div class="profile-grid">
+        <div class="profile-item"><div class="profile-item-label">角色</div><div class="profile-item-value">亲自下场设计教学方法，不信赖普通老师</div></div>
+        <div class="profile-item"><div class="profile-item-label">教育理念</div><div class="profile-item-value">身心健康远重于成绩 · 反死记硬背 · 反监控</div></div>
+        <div class="profile-item"><div class="profile-item-label">大女儿9岁</div><div class="profile-item-value">四年级学完六年级数学 · 独立意识觉醒 · 自主用AI</div></div>
+        <div class="profile-item"><div class="profile-item-label">小女儿6岁</div><div class="profile-item-value">二胎跟随学习 · 游戏化/目标驱动 · 半月识字150</div></div>
+      </div>
+      <div class="profile-sub">功能验证</div>
+      <div style="font-size:12px;line-height:2">
+        AI辅助出题 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span> ·
+        游戏化闯关 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span> ·
+        AI德育动画 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span><br>
+        监控/喂答案 <span class="stars"><span class="star-on">★</span><span class="star-off">☆☆☆☆</span></span><span style="color:var(--red-d);font-size:11px;margin-left:4px">绝对禁区</span> ·
+        机械听写 <span class="stars"><span class="star-on">★</span><span class="star-off">☆☆☆☆</span></span><span style="color:var(--red-d);font-size:11px;margin-left:4px">低效排斥</span>
+      </div>
+      <div class="divider"></div>
+      <div class="quote">「老师也反感。很多工具不仅提供思路，大部分孩子就直接抄答案了。用惯这些工具的孩子不会独立思考了。」</div>
+    </div>
+  </div>
+
+  <!-- Allen -->
+  <div class="profile">
+    <div class="profile-head">
+      <div class="profile-avatar" style="background:linear-gradient(135deg,var(--purple),#7B73D1)">A</div>
+      <div>
+        <div class="profile-name">allenyu（Allen）</div>
+        <div class="profile-meta">单孩 · 女儿9岁 · 极客型家长 · 期望解放双手 · 游戏化学习践行者</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-sub">家长画像</div>
+      <div class="profile-grid">
+        <div class="profile-item"><div class="profile-item-label">教育理念</div><div class="profile-item-value">反过度压榨 · 重孩子幸福感 · "AI时代不必死卷"</div></div>
+        <div class="profile-item"><div class="profile-item-label">孩子特点</div><div class="profile-item-value">对压力敏感 · 唱歌跳舞天赋 · 节奏感强</div></div>
+        <div class="profile-item"><div class="profile-item-label">工具偏好</div><div class="profile-item-value">已用豆包检查作业 · 用AI写剧本/生成素材</div></div>
+        <div class="profile-item"><div class="profile-item-label">创新想法</div><div class="profile-item-value">语音消消乐学英语 · 动态绘本 · 实时反馈生成</div></div>
+      </div>
+      <div class="profile-sub">功能验证</div>
+      <div style="font-size:12px;line-height:2">
+        替代式听写/检查 <span class="stars"><span class="star-on">★★★★★</span></span> ·
+        游戏化闯关 <span class="stars"><span class="star-on">★★★★★</span></span> ·
+        AI辅助创意 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span> ·
+        场景化口语 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span>
+      </div>
+      <div class="divider"></div>
+      <div class="quote">「那是因为我不想自己在他旁边给他听（听写）啊。语音喊Apple，Apple就消失了——这种游戏化才让小孩持续用。」</div>
+    </div>
+  </div>
+
+  <!-- 子健 -->
+  <div class="profile">
+    <div class="profile-head">
+      <div class="profile-avatar" style="background:linear-gradient(135deg,#E8B4B8,#D49BA0)">子</div>
+      <div>
+        <div class="profile-name">子健</div>
+        <div class="profile-meta">单孩 · 女儿6岁即将升小一 · 极度佛系 · 拒绝内卷 · 几乎零电子产品</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-sub">家长画像</div>
+      <div class="profile-grid">
+        <div class="profile-item"><div class="profile-item-label">分工</div><div class="profile-item-value">工作日妻子主导，周末子健主导</div></div>
+        <div class="profile-item"><div class="profile-item-label">教育理念</div><div class="profile-item-value">身心健康+开心成长 · 运动习惯 · 独立思考</div></div>
+        <div class="profile-item"><div class="profile-item-label">设备习惯</div><div class="profile-item-value">家中无电视 · 平板仅听歌/视频通话 · 实体桌游为主</div></div>
+        <div class="profile-item"><div class="profile-item-label">核心痛点</div><div class="profile-item-value">入睡困难（拖至10-11点）· 卫生习惯差（吃手/不穿鞋）</div></div>
+      </div>
+      <div class="profile-sub">功能验证</div>
+      <div style="font-size:12px;line-height:2">
+        启发式辅导 <span class="stars"><span class="star-on">★★★★★</span></span> ·
+        阅读/绘本探讨 <span class="stars"><span class="star-on">★★★★</span><span class="star-off">☆</span></span> ·
+        AI互动故事 <span class="stars"><span class="star-on">★★★</span><span class="star-off">☆☆</span></span><br>
+        情感记忆 <span class="stars"><span class="star-on">★★★</span><span class="star-off">☆☆</span></span><span style="font-size:11px;color:var(--text3);margin-left:4px">理念好但硬件受限</span> ·
+        电子宠物 <span class="stars"><span class="star-on">★★</span><span class="star-off">☆☆☆</span></span><br>
+        坐姿检测 <span class="stars"><span class="star-on">★</span><span class="star-off">☆☆☆☆</span></span> ·
+        学情监控 <span class="stars"><span class="star-on">★</span><span class="star-off">☆☆☆☆</span></span><span style="font-size:11px;color:var(--text3);margin-left:4px">不想偷窥孩子隐私</span>
+      </div>
+      <div class="divider"></div>
+      <div class="quote">「若要实现真正的陪伴，产品必须具备空间移动能力，能跟随孩子在不同房间跑动探索。」</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 05 功能验证矩阵 ========== -->
+<div class="section" id="s5">
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <span class="sec-title">功能验证矩阵</span>
+  </div>
+  <div class="card card-flush">
+    <div style="overflow-x:auto">
+    <table class="mx-table">
+      <thead><tr>
+        <th style="min-width:160px">功能概念</th>
+        <th style="min-width:64px">书影</th>
+        <th style="min-width:64px">龙哥</th>
+        <th style="min-width:64px">赵伟</th>
+        <th style="min-width:64px">Allen</th>
+        <th style="min-width:64px">子健</th>
+        <th style="min-width:100px">综合结论</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>AI育儿军师/策略库</td><td><span class="mx-hot">★5</span></td><td><span class="mx-ban">★1</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td style="font-size:11px">高知刚需，普通排斥</td></tr>
+        <tr><td>AI辅助出题/检查</td><td><span class="mx-ok">★4</span></td><td><span class="mx-na">—</span></td><td><span class="mx-ok">★4</span></td><td><span class="mx-ok">★4</span></td><td><span class="mx-na">—</span></td><td style="font-size:11px;color:var(--teal-d);font-weight:600">✅ 强刚需</td></tr>
+        <tr><td>替代式听写/背诵</td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-ban">★1</span></td><td><span class="mx-hot">★5</span></td><td><span class="mx-na">—</span></td><td style="font-size:11px">因人而异</td></tr>
+        <tr><td>游戏化闯关学习</td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-ok">★4</span></td><td><span class="mx-hot">★5</span></td><td><span class="mx-na">—</span></td><td style="font-size:11px;color:var(--teal-d);font-weight:600">✅ 强刚需</td></tr>
+        <tr><td>桌面状态宠物</td><td><span class="mx-na">—</span></td><td><span class="mx-hot">★5</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td style="font-size:11px;color:var(--blue-d);font-weight:600">情绪价值爆点</td></tr>
+        <tr><td>成长记录自动沉淀</td><td><span class="mx-na">—</span></td><td><span class="mx-hot">★5</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-ban">★1</span></td><td style="font-size:11px">留存利器，但佛系排斥</td></tr>
+        <tr><td>启发式问答/辅导</td><td><span class="mx-ok">★4</span></td><td><span class="mx-ok">★4</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-hot">★5</span></td><td style="font-size:11px;color:var(--teal-d);font-weight:600">✅ 跨群刚需</td></tr>
+        <tr><td>AI定制绘本/动画</td><td><span class="mx-warn">★3</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-ok">★4</span></td><td><span class="mx-warn">★3</span></td><td style="font-size:11px">有潜力</td></tr>
+        <tr><td>桌面视觉监控</td><td><span class="mx-ban">★1</span></td><td><span class="mx-na">—</span></td><td><span class="mx-ban">★1</span></td><td><span class="mx-na">—</span></td><td><span class="mx-ban">★1</span></td><td style="font-size:11px;color:var(--red-d);font-weight:600">❌ 雷区</td></tr>
+        <tr><td>电子宠物养成</td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-na">—</span></td><td><span class="mx-warn">★2</span></td><td style="font-size:11px">极易吃灰</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 06 产品策略建议 ========== -->
+<div class="section" id="s6">
+  <div class="sec-head">
+    <span class="sec-num">06</span>
+    <span class="sec-title">产品策略建议</span>
+  </div>
+
+  <div class="card" style="background:var(--text);color:#fff;border:none">
+    <div style="font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:8px">核心定位</div>
+    <div style="font-size:14px;opacity:.85;line-height:1.8">家长的<strong style="color:#5DCAA5">"数字军师"</strong> + 孩子的<strong style="color:#F0997B">"自驱力激发器"</strong><br>赋能家长决策，激发孩子主动性——绝不做监控者和喂答案者。</div>
+  </div>
+
+  <div class="sub-label" style="margin-top:24px">✅ 三大必做功能</div>
+  <div class="strat-card">
+    <div class="strat-icon" style="background:var(--teal-l)">🎮</div>
+    <div>
+      <div class="strat-name">游戏化闯关学习</div>
+      <div class="strat-desc">赵伟★4 + Allen★5 一致认可。关键是"引导思考而非喂答案"。结合关卡+实物奖励+社交PK，解决自驱力这个深层问题。必须有足够的教育质量支撑，否则高知家长迅速抛弃。</div>
+    </div>
+  </div>
+  <div class="strat-card">
+    <div class="strat-icon" style="background:var(--purple-l)">✍️</div>
+    <div>
+      <div class="strat-name">AI替代式听写 / 背诵检查</div>
+      <div class="strat-desc">Allen★5 + 问卷中"听写/背诵"是高频痛点。家长最想被解放的一件事就是"不想坐在旁边给孩子听写"。注意：赵伟认为机械听写低效——需提供"自适应"模式供高阶用户跳过。</div>
+    </div>
+  </div>
+  <div class="strat-card">
+    <div class="strat-icon" style="background:var(--blue-l)">🐾</div>
+    <div>
+      <div class="strat-name">家长端桌面状态伴随</div>
+      <div class="strat-desc">龙哥★5 极度认可。在家长办公电脑右下角实时展示孩子状态（类似QQ宠物），精准打中职场父母"摸鱼时想看看孩子"的隐秘情感需求。成长记录自动沉淀是强留存手段。</div>
+    </div>
+  </div>
+
+  <div class="sub-label" style="margin-top:24px">⛔ 三大禁区</div>
+  <div class="strat-card" style="border-left:3px solid var(--red-d)">
+    <div class="strat-icon" style="background:var(--red-l)">📷</div>
+    <div>
+      <div class="strat-name">不做监控式功能</div>
+      <div class="strat-desc">摄像头/坐姿监控：5位受访者一致排斥。4年级以上孩子有独立意识，强行监控会引发反抗（摘掉/扔掉设备）。学校也禁止智能设备进教室。</div>
+    </div>
+  </div>
+  <div class="strat-card" style="border-left:3px solid var(--red-d)">
+    <div class="strat-icon" style="background:var(--red-l)">📋</div>
+    <div>
+      <div class="strat-name">不做"喂答案"</div>
+      <div class="strat-desc">赵伟+老师一致反感：「用惯工具的孩子不会独立思考了」。产品应提供"解题思路"供家长抽检，而非让孩子直接看答案。</div>
+    </div>
+  </div>
+  <div class="strat-card" style="border-left:3px solid var(--red-d)">
+    <div class="strat-icon" style="background:var(--red-l)">📢</div>
+    <div>
+      <div class="strat-name">不做泛化育儿说教</div>
+      <div class="strat-desc">龙哥：「每个孩子不同，通用大道理完全不信」。AI建议必须场景化、个性化——推送"相似家庭的真实案例与实操步骤"比"育儿理论"有效10倍。</div>
+    </div>
+  </div>
+
+  <div class="sub-label" style="margin-top:24px">📋 问卷迭代建议（综合5位访谈者反馈）</div>
+  <div class="card card-sm">
+    <div style="font-size:12px;color:var(--text2);line-height:1.8">
+      <strong>1. Q5新增选项：</strong>F.孩子缺乏自主规划/自驱力 · G.亲子冲突时家长情绪内耗 · H.行为卫生习惯差<br>
+      <strong>2. Q6拆分"监控伪需求"：</strong>将"监督坐姿"与"习惯引导"分离，独立测试真实接受度<br>
+      <strong>3. Q6新增"家长赋能"：</strong>E.家长育儿智库（亲子冲突心理学建议/成长计划生成）<br>
+      <strong>4. 新增硬件形态题：</strong>桌面智能屏 / 无屏音箱 / 随身佩戴 / 可移动仿生机器人<br>
+      <strong>5. 新增家长端形态：</strong>A.手机推送报告 B.桌面常驻动态组件 C.被动查看即可<br>
+      <strong>6. 价格题拆分形态：</strong>无屏(100-500元) vs 带屏(500-1500元) · 新增收费模式题（买断 vs 订阅）<br>
+      <strong>7. 新增渠道/决策者题：</strong>购买渠道偏好 + 家庭决策人（妈妈/爸爸/共同/孩子）<br>
+      <strong>8. 问卷设计优化：</strong>增加中性选项，避免非黑即白的二元对立（如内向/外向应更多元）
+    </div>
+  </div>
+</div>
+
+<div style="height:48px"></div>
+</div>
+
+<div class="footer">
+  <div class="container">
+    家庭AI育娃调研总结报告 · 问卷N=19 + 深度访谈N=5 · 2026年4月<br>
+    广东深圳样本，结论推广需扩大样本量验证
+  </div>
+</div>
+
+<script>
+const secs=['s1','s2','s3','s4','s5','s6'];
+const links=document.querySelectorAll('.nav-link');
+const NH=48;
+function upd(){
+  let c=secs[0];
+  for(const id of secs){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=NH+40)c=id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c));
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+links.forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.getElementById(a.getAttribute('href').slice(1));if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-NH-12,behavior:'smooth'})})});
+</script>
+</body>
+</html>
