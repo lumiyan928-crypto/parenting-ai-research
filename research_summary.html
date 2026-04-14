@@ -720,75 +720,238 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
   </div>
 </div>
 
-<!-- ========== 06 产品策略建议 ========== -->
+<!-- ========== 06 产品策略：四条主线 ========== -->
 <div class="section" id="s6">
   <div class="sec-head">
     <span class="sec-num">06</span>
-    <span class="sec-title">产品策略建议</span>
+    <span class="sec-title">产品策略：四条主线</span>
   </div>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:24px">从5位访谈+19份问卷中提炼四条清晰的产品主线。每条回答：这是什么 → 为什么做 → 怎么做。</p>
 
-  <div class="card" style="background:var(--text);color:#fff;border:none">
-    <div style="font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:8px">核心定位</div>
-    <div style="font-size:14px;opacity:.85;line-height:1.8">家长的<strong style="color:#5DCAA5">"育娃经验AI化身"</strong> + 孩子的<strong style="color:#F0997B">"自驱力激发器"</strong><br>将优秀育娃方法论可复用，激发孩子主动性——绝不做监控者和喂答案者。</div>
-  </div>
-
-  <div class="sub-label" style="margin-top:24px">✅ 三大必做功能</div>
-  <div class="strat-card">
-    <div class="strat-icon" style="background:var(--teal-l)">🎮</div>
-    <div>
-      <div class="strat-name">游戏化闯关学习</div>
-      <div class="strat-desc">赵伟★4 + Allen★5 一致认可。关键是"引导思考而非喂答案"。结合关卡+实物奖励+社交PK，解决自驱力这个深层问题。必须有足够的教育质量支撑，否则高知家长迅速抛弃。</div>
-    </div>
-  </div>
-  <div class="strat-card">
-    <div class="strat-icon" style="background:var(--purple-l)">✍️</div>
-    <div>
-      <div class="strat-name">AI替代式听写 / 背诵检查</div>
-      <div class="strat-desc">Allen★5 + 问卷中"听写/背诵"是高频痛点。家长最想被解放的一件事就是"不想坐在旁边给孩子听写"。注意：赵伟认为机械听写低效——需提供"自适应"模式供高阶用户跳过。</div>
-    </div>
-  </div>
-  <div class="strat-card">
-    <div class="strat-icon" style="background:var(--blue-l)">🐾</div>
-    <div>
-      <div class="strat-name">家长端桌面状态伴随</div>
-      <div class="strat-desc">龙哥★5 极度认可。在家长办公电脑右下角实时展示孩子状态（类似QQ宠物），精准打中职场父母"摸鱼时想看看孩子"的隐秘情感需求。成长记录自动沉淀是强留存手段。</div>
+  <!-- 排序总览 -->
+  <div class="card" style="background:var(--text);color:#fff;border:none;margin-bottom:24px">
+    <div style="font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:12px">主线优先级排序</div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="background:#5DCAA5;color:#fff;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;flex-shrink:0">🥇 P0</span>
+        <span><strong>育娃专家团</strong> — 核心差异化定位 · 市面无对标 · 长期壁垒</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="background:#F0997B;color:#fff;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;flex-shrink:0">🥇 P0</span>
+        <span><strong>游戏化学习</strong> — 获客入口 · 每天高频 · AI听写/背诵是最具体的落地钩子</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="background:#85B7EB;color:#fff;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;flex-shrink:0">🥈 P1</span>
+        <span><strong>基础素质启蒙</strong> — 跨年龄刚需 · AI绘本+十万个为什么 · 第二阶段扩展</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="background:rgba(255,255,255,.3);color:#fff;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;flex-shrink:0">🥉 P2</span>
+        <span><strong>AI状态感知</strong> — 前三条主线的自然衍生品 · 不单独投入</span>
+      </div>
     </div>
   </div>
 
-  <div class="sub-label" style="margin-top:24px">⛔ 三大禁区</div>
-  <div class="strat-card" style="border-left:3px solid var(--red-d)">
-    <div class="strat-icon" style="background:var(--red-l)">📷</div>
-    <div>
-      <div class="strat-name">不做监控式功能</div>
-      <div class="strat-desc">摄像头/坐姿监控：5位受访者一致排斥。4年级以上孩子有独立意识，强行监控会引发反抗（摘掉/扔掉设备）。学校也禁止智能设备进教室。</div>
+  <!-- 主线1: 育娃专家团 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--teal-l)">🧠</div>
+      <div>
+        <div class="theme-name">主线一：育娃专家团（AI军师）</div>
+        <div class="theme-sub">🥇 P0 · 核心差异化定位 · 市面无对标</div>
+      </div>
     </div>
-  </div>
-  <div class="strat-card" style="border-left:3px solid var(--red-d)">
-    <div class="strat-icon" style="background:var(--red-l)">📋</div>
-    <div>
-      <div class="strat-name">不做"喂答案"</div>
-      <div class="strat-desc">赵伟+老师一致反感：「用惯工具的孩子不会独立思考了」。产品应提供"解题思路"供家长抽检，而非让孩子直接看答案。</div>
-    </div>
-  </div>
-  <div class="strat-card" style="border-left:3px solid var(--red-d)">
-    <div class="strat-icon" style="background:var(--red-l)">📢</div>
-    <div>
-      <div class="strat-name">不做泛化育儿说教</div>
-      <div class="strat-desc">龙哥：「每个孩子不同，通用大道理完全不信」。AI建议必须场景化、个性化——推送"相似家庭的真实案例与实操步骤"比"育儿理论"有效10倍。</div>
+    <div class="theme-body">
+      <div class="theme-section">这是什么</div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.8">将中心积累的优秀育娃经验（学习方法、习惯培养策略、阶段性目标拆解）蒸馏为AI化身。家长输入孩子的年龄、情况和困惑，AI基于成熟的育娃方法论，输出<strong>可直接执行的方案</strong>——不是泛化的育儿鸡汤，而是"这周你该让孩子做这三件事"的行动清单。</p>
+
+      <div class="theme-section">为什么做 · 定性论据</div>
+      <div class="theme-chips" style="margin-bottom:8px">
+        <span class="chip chip-hot">书影 ★5：蒸馏专家理论 + 策略库傻瓜化</span>
+        <span class="chip chip-ok">赵伟 ★4：亲自设计教学方法，高效但不可复制</span>
+        <span class="chip chip-ok">Allen：用AI当执行助手，自研游戏化方案</span>
+        <span class="chip chip-warn">龙哥 ★1：排斥泛化说教，但认可"真实案例"</span>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote">「这些优秀的教育经验如果能被AI提炼并模板化，对普通家庭是降维打击。」<br><span class="quote-author">—— 书影</span></div>
+        <div class="quote">「除非AI能给出绝对定制化建议，否则通用大道理完全不信。更愿意看相似家庭的实操案例。」<br><span class="quote-author">—— 龙哥</span></div>
+      </div>
+
+      <div class="theme-section">为什么做 · 定量论据</div>
+      <div class="grid-2" style="margin-bottom:8px">
+        <div class="profile-item"><div class="profile-item-label">工具空白</div><div class="profile-item-value">47%家长纯人力解决，原因是"没合适的工具"</div></div>
+        <div class="profile-item"><div class="profile-item-label">主动寻找</div><div class="profile-item-value">Q7"上网搜育儿内容"是高频行为——有动机，缺入口</div></div>
+        <div class="profile-item"><div class="profile-item-label">已有行为</div><div class="profile-item-value">0-3岁AI渗透率4/5，但全部是"家长自己查资料对比方案"</div></div>
+        <div class="profile-item"><div class="profile-item-label">本质需求</div><div class="profile-item-value">家长已在当自己的军师，缺产品化的整合入口</div></div>
+      </div>
+
+      <div class="theme-section">典型场景</div>
+      <div style="font-size:12px;color:var(--text2);background:var(--muted);border-radius:var(--rs);padding:12px 14px;line-height:1.8;margin-bottom:8px">
+        妈妈在小红书刷到"学霸家长的三年级数学规划"，觉得有道理但自己孩子情况不同，不知道怎么调整。她打开小程序，输入孩子年龄、科目、当前水平和困难，AI基于多位有经验家长的方法论，生成了一份<strong>"本周数学提升计划"</strong>：每天做什么、怎么检查、遇到卡点怎么处理——她照着做就行。
+      </div>
+
+      <div class="theme-section">怎么做</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8">
+        <strong>核心能力：</strong>蒸馏中心育娃经验 + 教育专家方法论 → 构建知识库<br>
+        <strong>交互形式：</strong>家长输入孩子情况 → AI输出个性化周计划/行动清单<br>
+        <strong>差异化：</strong>不是"告诉你为什么"（说教），而是"告诉你这周做什么"（方案）<br>
+        <strong>迭代方向：</strong>后期引入"相似家庭案例推荐"（覆盖龙哥型用户）
+      </div>
     </div>
   </div>
 
-  <div class="sub-label" style="margin-top:24px">📋 问卷迭代建议（综合5位访谈者反馈）</div>
-  <div class="card card-sm">
-    <div style="font-size:12px;color:var(--text2);line-height:1.8">
-      <strong>1. Q5新增选项：</strong>F.孩子缺乏自主规划/自驱力 · G.亲子冲突时家长情绪内耗 · H.行为卫生习惯差<br>
-      <strong>2. Q6拆分"监控伪需求"：</strong>将"监督坐姿"与"习惯引导"分离，独立测试真实接受度<br>
-      <strong>3. Q6新增"家长赋能"：</strong>E.家长育儿智库（亲子冲突心理学建议/成长计划生成）<br>
-      <strong>4. 新增硬件形态题：</strong>桌面智能屏 / 无屏音箱 / 随身佩戴 / 可移动仿生机器人<br>
-      <strong>5. 新增家长端形态：</strong>A.手机推送报告 B.桌面常驻动态组件 C.被动查看即可<br>
-      <strong>6. 价格题拆分形态：</strong>无屏(100-500元) vs 带屏(500-1500元) · 新增收费模式题（买断 vs 订阅）<br>
-      <strong>7. 新增渠道/决策者题：</strong>购买渠道偏好 + 家庭决策人（妈妈/爸爸/共同/孩子）<br>
-      <strong>8. 问卷设计优化：</strong>增加中性选项，避免非黑即白的二元对立（如内向/外向应更多元）
+  <!-- 主线2: 游戏化学习 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--coral-l)">🎮</div>
+      <div>
+        <div class="theme-name">主线二：游戏化学习</div>
+        <div class="theme-sub">🥇 P0 · 获客入口 · 每天高频使用</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">这是什么</div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.8">将枯燥的学习任务（听写、背诵、口语、练题）包装为游戏化闯关体验。孩子不是"被逼学习"而是"闯关打怪"——通过关卡设计、即时反馈、成就系统驱动孩子自主投入，解放家长的"催促劳动"。<strong>AI听写/背诵作为最具体的获客入口。</strong></p>
+
+      <div class="theme-section">为什么做 · 定性论据</div>
+      <div class="theme-chips" style="margin-bottom:8px">
+        <span class="chip chip-hot">Allen ★5：自研游戏化方案 · 语音消消乐创意</span>
+        <span class="chip chip-hot">Allen ★5：AI听写——"不想坐旁边给孩子听写"</span>
+        <span class="chip chip-ok">赵伟 ★4：闯关式认可，但必须有教育深度</span>
+        <span class="chip chip-warn">龙哥：物质奖励1-2月失效 → 需社交PK延长</span>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote">「游戏化才会让小孩持续地去用，在不知不觉中吸收，没那么累。语音喊Apple，Apple就消失了。」<br><span class="quote-author">—— Allen</span></div>
+        <div class="quote">「必须有足够的教育质量支撑。只是套壳趣味游戏而缺乏知识深度，高知家长很快会看穿并抛弃。」<br><span class="quote-author">—— 赵伟</span></div>
+      </div>
+
+      <div class="theme-section">为什么做 · 定量论据</div>
+      <div class="grid-2" style="margin-bottom:8px">
+        <div class="profile-item"><div class="profile-item-label">全票痛点</div><div class="profile-item-value">"督促写作业/防止走神"在6-9岁、9-13岁全票或近全票</div></div>
+        <div class="profile-item"><div class="profile-item-label">自驱力缺失</div><div class="profile-item-value">"缺少自驱力"是多位家长的原声痛点（iris、龙哥）</div></div>
+        <div class="profile-item"><div class="profile-item-label">跨段高票</div><div class="profile-item-value">"十万个为什么"11/19全场最高票——好奇心驱动=游戏化底层逻辑</div></div>
+        <div class="profile-item"><div class="profile-item-label">听写痛点</div><div class="profile-item-value">"听写/背诵检查"在9-13岁组4/7选择，是高频时间消耗场景</div></div>
+      </div>
+
+      <div class="theme-section">典型场景</div>
+      <div style="font-size:12px;color:var(--text2);background:var(--muted);border-radius:var(--rs);padding:12px 14px;line-height:1.8;margin-bottom:8px">
+        晚上7点，妈妈又要开始催孩子写作业了。孩子打开小程序，今天的"英语闯关"任务是：用语音念出10个单词通关，全对解锁一个新角色。孩子自己主动开始了——妈妈终于不用催了。
+      </div>
+
+      <div class="theme-section">怎么做</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8">
+        <strong>获客入口：</strong>AI听写/背诵检查（最具体、最高频、最容易被替代的场景）<br>
+        <strong>核心场景：</strong>闯关练题 + AI口语陪练 + 限时挑战<br>
+        <strong>游戏化机制：</strong>关卡解锁 + 即时正误反馈 + 成就徽章 + 好友PK排行榜<br>
+        <strong>红线：</strong>引导思考而非喂答案（赵伟） · 教育质量过硬（不是套壳小游戏）<br>
+        <strong>社交延长：</strong>同伴PK/排行榜（龙哥验证"同龄人对比最有效"）
+      </div>
+    </div>
+  </div>
+
+  <!-- 主线3: 基础素质启蒙 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--blue-l)">📖</div>
+      <div>
+        <div class="theme-name">主线三：基础素质启蒙</div>
+        <div class="theme-sub">🥈 P1 · 跨年龄刚需 · 第二阶段扩展</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">这是什么</div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.8">通过AI互动绘本、启发式对话、创意引导等方式，帮助3-9岁孩子在阅读、表达、创造力、好奇心等基础素质上获得启蒙。填补"家长想培养但不知道怎么做"的空白。</p>
+
+      <div class="theme-section">为什么做 · 定性论据</div>
+      <div class="theme-chips" style="margin-bottom:8px">
+        <span class="chip chip-hot">子健 ★5：启发式辅导 · 引导孩子自己想</span>
+        <span class="chip chip-ok">Allen ★4：动态绘本 · 实时反馈生成创意</span>
+        <span class="chip chip-ok">子健 ★4：阅读/绘本 · 重"讨论"而非"读"</span>
+        <span class="chip chip-muted">书影 ★3：AI绘本 · 孩子融入故事提升代入感</span>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote">「AI的解答必须符合6岁认知水平，引导孩子自己想，不能直接给答案。」<br><span class="quote-author">—— 子健</span></div>
+        <div class="quote">「不要只是一图一文，应加入短视频动画。孩子说'猫有粉色耳朵'，画面能实时生成。」<br><span class="quote-author">—— Allen</span></div>
+      </div>
+
+      <div class="theme-section">为什么做 · 定量论据</div>
+      <div class="grid-2" style="margin-bottom:8px">
+        <div class="profile-item"><div class="profile-item-label">阅读兴趣</div><div class="profile-item-value">"培养阅读兴趣"在3-6岁(3/5)、6-9岁(2/5)均有——素质发展的最大公约数</div></div>
+        <div class="profile-item"><div class="profile-item-label">全场最高票</div><div class="profile-item-value">"十万个为什么"11/19——好奇心启发是跨年龄刚需</div></div>
+        <div class="profile-item"><div class="profile-item-label">讲故事需求</div><div class="profile-item-value">"讲故事/读绘本"8/19票，0-3岁(4/5)排第一</div></div>
+        <div class="profile-item"><div class="profile-item-label">创造力</div><div class="profile-item-value">"创造力培养"在6-9岁和9-13岁均有2-3人选择</div></div>
+      </div>
+
+      <div class="theme-section">典型场景</div>
+      <div style="font-size:12px;color:var(--text2);background:var(--muted);border-radius:var(--rs);padding:12px 14px;line-height:1.8;margin-bottom:8px">
+        睡前，5岁女儿缠着爸爸讲故事。爸爸打开小程序，选了一个互动故事，女儿说"我想故事里有一只会飞的猫"，AI即时生成了一段猫飞行的情节，还反问"你猜它飞到了哪里？"——女儿兴奋地说出想法，故事继续延展。爸爸终于不用每晚编故事了。
+      </div>
+
+      <div class="theme-section">怎么做</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8">
+        <strong>AI绘本：</strong>互动式故事生成，孩子可选走向、对话角色、实时反馈<br>
+        <strong>十万个为什么：</strong>启发式问答，不直接给答案而是反问引导思考<br>
+        <strong>AI口才/表达：</strong>朗读、角色扮演、续写故事等互动玩法<br>
+        <strong>目标年龄：</strong>以3-9岁为核心（好奇心爆发期 + 家长精力最有限）<br>
+        <strong>差异化：</strong>不是"AI读故事"（已有凯叔），而是"AI跟孩子聊故事"（双向互动）
+      </div>
+    </div>
+  </div>
+
+  <!-- 主线4: AI状态感知 -->
+  <div class="theme">
+    <div class="theme-head">
+      <div class="theme-icon" style="background:var(--muted)">📊</div>
+      <div>
+        <div class="theme-name">主线四：AI状态感知</div>
+        <div class="theme-sub">🥉 P2 · 前三条主线的自然衍生品 · 不单独投入</div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <div class="theme-section">这是什么</div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.8">家长不在孩子身边时，小程序自动整理孩子的学习状态、情绪变化和成长记录，以轻量、非侵入的方式推送给家长——让家长"看见"孩子，而非"监控"孩子。</p>
+
+      <div class="theme-section">为什么做 · 定性论据</div>
+      <div class="theme-chips" style="margin-bottom:8px">
+        <span class="chip chip-hot">龙哥 ★5：桌面宠物显示孩子状态 · 成长记录沉淀 ★5</span>
+        <span class="chip" style="background:var(--red-l);color:var(--red-d)">子健 ★1：不想偷窥孩子隐私，不想增加阅读报告负担</span>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote">「摸鱼的时候一定会点进去看。如果右下角有虚拟宠物显示孩子在写作业，能极大缓解牵挂。」<br><span class="quote-author">—— 龙哥</span></div>
+        <div class="quote">「学习是孩子自己的事，不想过度介入或偷窥孩子隐私。」<br><span class="quote-author">—— 子健</span></div>
+      </div>
+
+      <div class="theme-section">为什么做 · 定量论据</div>
+      <div class="grid-2" style="margin-bottom:8px">
+        <div class="profile-item"><div class="profile-item-label">问卷高票</div><div class="profile-item-value">"成长记录推送"9/19票，0-3岁和9-13岁均进前二</div></div>
+        <div class="profile-item"><div class="profile-item-label">需注意</div><div class="profile-item-value">动机两极化：0-3岁="解放"，9-13岁="感知"；佛系家长明确排斥</div></div>
+      </div>
+
+      <div class="theme-section">怎么做</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8">
+        <strong>数据来源：</strong>基于孩子使用小程序（闯关/听写/绘本）时产生的自然数据——不额外加传感器<br>
+        <strong>推送形态：</strong>轻量卡片式（今日摘要：完成X个任务，情绪状态XX）<br>
+        <strong>红线：</strong>绝不做实时监控/摄像头/坐姿检测（5/5一致排斥）<br>
+        <strong>定位：</strong>前三条主线的自然副产品——有了使用数据，状态感知自然生长，不单独投入
+      </div>
+    </div>
+  </div>
+
+  <!-- 全局禁区 -->
+  <div class="card" style="border-left:3px solid var(--red-d);margin-top:8px">
+    <div style="font-size:14px;font-weight:600;color:var(--red-d);margin-bottom:10px">⛔ 全局禁区（贯穿所有主线）</div>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text2);line-height:1.7">
+      <div><strong style="color:var(--red-d)">不做监控</strong> — 5/5受访者一致排斥。4年级以上孩子会摘掉/扔掉设备。学校禁止智能设备进教室。</div>
+      <div><strong style="color:var(--red-d)">不喂答案</strong> — 赵伟+老师：「用惯工具的孩子不会独立思考了」。提供思路引导，不给标准答案。</div>
+      <div><strong style="color:var(--red-d)">不泛化说教</strong> — 龙哥：「每个孩子不同，通用大道理完全不信」。方案必须个性化、可执行。</div>
+    </div>
+  </div>
+
+  <!-- MVP建议 -->
+  <div class="insight" style="background:var(--teal-l);margin-top:16px">
+    <div class="insight-title" style="color:var(--teal-d)">🚀 MVP建议</div>
+    <div class="insight-desc" style="color:#085041">
+      <strong>先做主线二（游戏化学习 · AI听写/背诵入口）+ 主线一（育娃专家团）。</strong><br>
+      游戏化学习是高频使用场景，AI听写/背诵是最具体、最容易落地的获客钩子；育娃专家团是核心差异化定位，构建长期壁垒。基础素质启蒙第二阶段扩展，AI状态感知作为自然副产品不单独投入。
     </div>
   </div>
 </div>
